@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import About from './components/About'
+import Experience from './components/Experience'
 import AIVisualizationsSection from './components/AIVisualizationsSection'
 import Projects from './components/Projects'
 import Contact from './components/Contact'
@@ -41,6 +42,7 @@ function App() {
         <main className={`transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
           <Hero />
           <About />
+          <Experience />
           <AIVisualizationsSection />
           <Projects />
           <Contact />

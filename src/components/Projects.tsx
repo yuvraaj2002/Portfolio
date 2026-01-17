@@ -108,7 +108,7 @@ export default function Projects() {
       <div className="section-container">
         {/* Section header */}
         <div className="mb-16">
-          <span className="text-xs uppercase tracking-wider text-neutral-500 font-mono">02</span>
+          <span className="text-xs uppercase tracking-wider text-neutral-500 font-mono">04</span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">Projects</h2>
           <p className="text-neutral-400 mt-4 max-w-xl">
             A selection of AI/ML projects I've built, from research experiments to production systems.

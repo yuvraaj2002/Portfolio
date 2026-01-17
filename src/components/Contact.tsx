@@ -33,7 +33,7 @@ export default function Contact() {
       <div className="section-container">
         {/* Section header */}
         <div className="mb-16">
-          <span className="text-xs uppercase tracking-wider text-neutral-500 font-mono">03</span>
+          <span className="text-xs uppercase tracking-wider text-neutral-500 font-mono">05</span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">Get in Touch</h2>
           <p className="text-neutral-400 mt-4 max-w-xl">
             Interested in collaborating on AI projects or discussing opportunities? 

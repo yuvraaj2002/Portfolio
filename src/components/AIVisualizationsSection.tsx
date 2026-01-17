@@ -23,7 +23,7 @@ export default function AIVisualizationsSection() {
         {/* Section header */}
         <div className="mb-12">
           <span className="text-xs uppercase tracking-wider text-neutral-500 font-mono">
-            Interactive Visualizations
+            03 — Interactive Visualizations
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-white mt-2">
             Deep Learning Concepts
