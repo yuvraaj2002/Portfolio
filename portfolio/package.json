@@ -1,0 +1,10 @@
+{
+  "name": "yuvraj-singh-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node build-case-studies.cjs",
+    "dev": "npm run build && python3 -m http.server 3000 --bind 127.0.0.1 --directory dist",
+    "check": "node --check app.js && node --check content.js && node --check journey.js && node --check smooth-scroll.js && node --check case-study.js && node --check case-studies.cjs && node --check publication-policy.cjs && node --check build-case-studies.cjs && node verify-case-studies.cjs"
+  }
+}

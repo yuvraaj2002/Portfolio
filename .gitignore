@@ -1,0 +1,12 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+.playwright/
+*.log
+Resources/
+
+# Local-only publication guard patterns
+private-identifiers.local.txt
