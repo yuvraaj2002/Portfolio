@@ -80,7 +80,8 @@
   selectFilter(new URLSearchParams(window.location.search).get('category') || 'all');
   // Testimonials: each quote links back to the client project it is about.
   const testimonialGrid = document.querySelector('#testimonial-grid');
-  const testimonials = window.PORTFOLIO_TESTIMONIALS || [];
+  // Only real, approved feedback is shown; the section stays hidden until there is some.
+  const testimonials = (window.PORTFOLIO_TESTIMONIALS || []).filter(item => !item.sample);
   if (testimonialGrid) {
     const initials = name => name.split(/\s+/).map(part => part[0]).join('').slice(0, 2).toUpperCase();
     testimonialGrid.innerHTML = testimonials.map(item => {
@@ -89,7 +90,7 @@
       const stars = Array.from({length: 5}, (_, i) => `<span class="${i < item.rating ? 'is-on' : ''}">★</span>`).join('');
       return `<figure class="testimonial-card">${item.sample ? '<span class="testimonial-sample">Sample</span>' : ''}<div class="testimonial-stars" role="img" aria-label="Rated ${item.rating} out of 5">${stars}</div><blockquote><p>${escape(item.quote)}</p></blockquote><figcaption>${avatar}<span class="testimonial-person"><strong>${escape(item.name)}</strong><span>${escape(item.role)}</span></span></figcaption>${project ? `<a class="testimonial-project" href="work/${escape(project.id)}/"><span>Project</span>${escape(project.title)}<i aria-hidden="true">↗</i></a>` : ''}</figure>`;
     }).join('');
-    if (!testimonials.length) testimonialGrid.closest('section').hidden = true;
+    testimonialGrid.closest('section').hidden = !testimonials.length;
     // Carousel: drifts continuously and loops through a cloned set of cards.
     // Hovering or keyboard focus holds it; swiping, arrows and dots still work.
     const dots = document.querySelector('#testimonial-dots');

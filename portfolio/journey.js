@@ -48,7 +48,7 @@
       workDot,
       atLane(work.querySelector('.work-toolbar'), lane, true),
       gridEnd,
-      testimonials && atLane(testimonials.querySelector('.section-label'), lane, true),
+      testimonials && !testimonials.hidden && atLane(testimonials.querySelector('.section-label'), lane, true),
       skills && atLane(skills.querySelector('.section-label'), lane, true),
       about && atLane(about.querySelector('.section-label'), lane, true),
       github && atLane(github.querySelector('.section-label'), lane, true)

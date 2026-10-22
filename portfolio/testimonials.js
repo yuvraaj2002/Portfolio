@@ -15,7 +15,7 @@ window.PORTFOLIO_TESTIMONIALS = [
     "name": "Partner name",
     "role": "Founder",
     "project": "document-workspace",
-    "rating": 5,
+    "rating": 4,
     "quote": "Sample feedback: he understood our document process quickly and turned it into a product our team actually uses. The assistant shows its sources, which is what earned our trust."
   },
   {
@@ -31,7 +31,7 @@ window.PORTFOLIO_TESTIMONIALS = [
     "name": "Partner name",
     "role": "Practice manager",
     "project": "healthcare-outreach",
-    "rating": 5,
+    "rating": 4,
     "quote": "Sample feedback: the call reviews and reports changed how we run the week. We can see what happened on every call without listening to all of them."
   },
   {

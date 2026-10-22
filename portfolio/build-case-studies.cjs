@@ -111,7 +111,7 @@ function build() {
   }
   console.log(`Built ${projects.length} public work overviews and an allowlisted site in dist/.`);
   const samples = testimonials.filter(item => item.sample).length;
-  if (samples) console.warn(`Note: ${samples} sample testimonial(s) are labelled SAMPLE on the page. Replace them with real, approved feedback before publishing.`);
+  if (samples) console.log(`Note: ${samples} sample testimonial(s) are hidden; the section appears once real feedback is added.`);
 }
 
 module.exports = {render, projects, details, skills, skillsScript, testimonials};
