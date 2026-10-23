@@ -2,14 +2,34 @@
 module.exports = {
   "patent-classification": {
     "role": "Backend & AI engineering",
-    "scope": "Patent intelligence",
-    "focus": "Analyst-facing capabilities",
-    "lead": "Make complex information easier to work with.",
-    "overview": "Patent analysis requires tools that help people organize technical information and understand recommendations. My work supported that need through AI-assisted classification capabilities.",
+    "scope": "Patent intelligence · Oct 2025 – present",
+    "focus": "Explainable classification at scale",
+    "lead": "Accurate enough to trust, clear enough to check.",
+    "overview": "Patent analysts sort large volumes of publications into a client’s own taxonomy, and they need to see why a recommendation was made. I built an explainable classification API that suggests up to three categories for each patent, each with an analyst-style justification, and a pipeline that runs it across very large batches.",
     "ownership": [
-      "Developed backend capabilities for AI-assisted patent classification.",
-      "Worked on making recommendations clearer and more useful for analysts.",
-      "Contributed to integration and overall product quality."
+      "Built the classification API: semantic and keyword search find the closest examples, results are merged, and a language model reranks them with structured, validated output.",
+      "Returned up to three taxonomy categories per patent, each with a short justification an analyst can check.",
+      "Evaluated against 5,000 client-labelled patents across 84 categories, reaching 87.8% top-1 and 98.2% top-3 accuracy at taxonomy-branch level, nearly doubling top-1 accuracy over the baseline.",
+      "Built a batch pipeline that processes up to 100,000 publications per job with chunked, asynchronous processing.",
+      "Shipped it as containers through GitHub Actions, with image scanning, commit-tagged releases, and automatic rollback."
+    ],
+    "numbers": [
+      {
+        "value": "87.8%",
+        "label": "top-1 accuracy at taxonomy-branch level"
+      },
+      {
+        "value": "98.2%",
+        "label": "top-3 accuracy on 5,000 client-labelled patents"
+      },
+      {
+        "value": "84",
+        "label": "taxonomy categories covered"
+      },
+      {
+        "value": "100K",
+        "label": "publications processed per job"
+      }
     ],
     "tools": [
       {
@@ -26,7 +46,10 @@ module.exports = {
         "items": [
           "Generative AI",
           "LiteLLM",
-          "Semantic search"
+          "Semantic search",
+          "Hybrid search",
+          "LLM reranking",
+          "Structured outputs"
         ]
       },
       {
@@ -34,25 +57,39 @@ module.exports = {
         "items": [
           "AWS",
           "Docker",
-          "GitHub Actions"
+          "GitHub Actions",
+          "Trivy"
         ]
       }
     ],
     "outcomes": [
-      "Supported more structured patent-analysis workflows.",
-      "Brought applied AI and backend engineering together around an analyst-facing problem."
+      "Nearly double the baseline’s top-1 accuracy, with the right category in the top three 98.2% of the time.",
+      "Every recommendation comes with a justification, so analysts can review rather than redo.",
+      "Classification runs on whole portfolios, up to 100,000 publications in a single job."
     ]
   },
   "citation-intelligence": {
     "role": "Document AI engineering",
-    "scope": "Technical-document analysis",
-    "focus": "Reference discovery & review",
-    "lead": "Help people get to the information that matters.",
-    "overview": "Reviewing references in technical documents involves detailed, repetitive work. I contributed document-AI capabilities that make relevant information easier to find and review.",
+    "scope": "Patent documents · Oct 2025 – present",
+    "focus": "Citation extraction & highlighting",
+    "lead": "Find every reference, and show exactly where it is.",
+    "overview": "Patent PDFs can run to hundreds of pages, and the citations inside them have to be found, cleaned up, and checked by hand. I built a serverless document-AI pipeline that extracts the citations from large patent PDFs, normalizes and enriches them, and highlights each one on the page where it appears.",
     "ownership": [
-      "Built AI-assisted document-processing capabilities.",
-      "Worked on making document results useful and reviewable.",
-      "Connected applied AI work with the needs of the wider product."
+      "Built a serverless pipeline orchestrated by AWS Step Functions, with separate stages that split the PDF, process each part, run OCR, and merge the results.",
+      "Used multimodal language models with structured output to extract citations and enrich references to non-patent literature.",
+      "Used a model with tool calling to locate each citation on the page, so the original PDF can be highlighted for review.",
+      "Kept OCR cost down by running containerized OCR in parallel, and only on pages that contain citations.",
+      "Split large PDFs into 70-page batches and kept the original page numbers intact when the results are merged."
+    ],
+    "numbers": [
+      {
+        "value": "4",
+        "label": "serverless stages: split, process, OCR, merge"
+      },
+      {
+        "value": "70",
+        "label": "pages per parallel batch for large PDFs"
+      }
     ],
     "tools": [
       {
@@ -67,8 +104,11 @@ module.exports = {
         "group": "AI",
         "items": [
           "Vision-Language Models",
+          "Multimodal LLMs",
+          "Tool calling",
+          "Structured outputs",
           "OCR",
-          "Document AI"
+          "ONNX Runtime"
         ]
       },
       {
@@ -76,25 +116,39 @@ module.exports = {
         "items": [
           "AWS Lambda",
           "AWS Step Functions",
-          "Amazon S3"
+          "Amazon S3",
+          "Docker"
         ]
       }
     ],
     "outcomes": [
-      "Supported reference-discovery and document-review tasks.",
-      "Contributed practical document-intelligence capabilities."
+      "Citations come back structured, normalized, and highlighted in the original PDF.",
+      "Large documents run in parallel batches instead of one long job.",
+      "OCR runs only where it is needed, which keeps processing cost down."
     ]
   },
   "ai-gateway": {
     "role": "AI platform engineering",
-    "scope": "Shared AI capabilities",
-    "focus": "Developer experience",
-    "lead": "Make AI easier for product teams to work with.",
-    "overview": "As AI becomes part of more product features, teams need a consistent way to work with it. My contribution focused on shared platform capabilities and the experience of integrating AI into applications.",
+    "scope": "Shared LLM infrastructure · Oct 2025 – present",
+    "focus": "Model access, cost & reliability",
+    "lead": "One API for every model the product needs.",
+    "overview": "As more product features use language models, every service was handling providers, keys, and costs on its own. I built a private LiteLLM gateway that gives platform services one OpenAI-compatible API over four foundation models, with access control, rate limits, and spend tracking in one place, and designed the cloud infrastructure it runs on.",
     "ownership": [
-      "Contributed to shared AI-platform engineering.",
-      "Worked with LiteLLM on model-access capabilities.",
-      "Prepared platform foundations for product-team integration."
+      "Built a private LiteLLM gateway with one OpenAI-compatible API over four foundation models, including an automatic fallback model.",
+      "Added per-service API keys, per-model rate limits, and spend tracking.",
+      "Designed the AWS infrastructure: containers behind an internal Application Load Balancer with health checks, a managed database for keys and spend logs, AWS Secrets Manager for runtime secrets, and keyless CI access through GitHub OIDC.",
+      "Moved model configuration into Git-reviewed, commit-tagged images with security scanning, dev-to-prod promotion, and automatic rollback.",
+      "Planned the move from a single-server setup to a managed, multi-zone deployment."
+    ],
+    "numbers": [
+      {
+        "value": "4",
+        "label": "foundation models behind one OpenAI-compatible API"
+      },
+      {
+        "value": "1",
+        "label": "gateway for keys, rate limits, and spend tracking"
+      }
     ],
     "tools": [
       {
@@ -105,65 +159,112 @@ module.exports = {
         ]
       },
       {
-        "group": "Delivery",
+        "group": "Cloud",
         "items": [
           "AWS",
+          "Application Load Balancer",
+          "Amazon RDS",
+          "AWS Secrets Manager"
+        ]
+      },
+      {
+        "group": "Delivery",
+        "items": [
           "Docker",
           "GitHub Actions",
+          "GitHub OIDC",
+          "Trivy",
           "Infrastructure as code"
         ]
       }
     ],
     "outcomes": [
-      "Supported a more consistent model-access experience.",
-      "Contributed a foundation for further platform development."
+      "Product teams call one API instead of managing each model provider.",
+      "Access, rate limits, and spend are controlled and visible in one place.",
+      "Model changes go through code review and can be rolled back automatically."
     ]
   },
   "maxval-ip-workflows": {
     "role": "Process Associate",
-    "scope": "Intellectual-property services",
-    "focus": "AI-assisted workflows",
-    "lead": "Apply AI where it improves the work.",
-    "overview": "At MaxVal IP Services, my role involved applying machine learning, deep learning, and generative AI to support intellectual-property management.",
+    "scope": "Intellectual-property services · Sep 2024 – Oct 2025",
+    "focus": "AI agents for IP workflows",
+    "lead": "Automate the work experienced analysts repeat every day.",
+    "overview": "Patent analysts and IP professionals spend hours every week on the USPTO platform, looking up publications and working through the same document tasks. I mapped those daily workflows and built end-to-end automations that do the repetitive parts.",
     "ownership": [
-      "Worked on AI-driven improvements to IP-management workflows.",
-      "Contributed to patent-analysis and portfolio-related work.",
-      "Focused on accuracy, decision support, and reducing repetitive effort."
+      "Mapped the daily workflows of patent analysts and IP professionals on the USPTO platform to find the repetitive research and document tasks worth automating.",
+      "Built end-to-end automations that pair Playwright browser automation with vision-based AI agents, which navigate USPTO systems, fetch publication data, and repeat the document work of experienced IP professionals.",
+      "Used language models and vision-language models to understand document layouts and extract structured data.",
+      "Delivered durable pipelines that saved 18–20 hours a week and processed hundreds of documents in one-third of the manual time."
+    ],
+    "numbers": [
+      {
+        "value": "18+",
+        "label": "hours saved every week (18–20)"
+      },
+      {
+        "value": "3x",
+        "label": "faster than doing the same documents by hand"
+      },
+      {
+        "value": "100+",
+        "label": "documents processed by the pipelines"
+      }
+    ],
+    "tools": [
+      {
+        "group": "Automation",
+        "items": [
+          "Python",
+          "Playwright",
+          "AI agents"
+        ]
+      },
+      {
+        "group": "AI",
+        "items": [
+          "Generative AI",
+          "Vision-Language Models",
+          "Document AI",
+          "Structured outputs"
+        ]
+      }
     ],
     "outcomes": [
-      "Applied AI in a professional IP-services context.",
-      "Contributed to workflow improvement and analytical support."
+      "18–20 hours of repetitive work removed from the team every week.",
+      "Documents processed in a third of the time it took by hand.",
+      "Analysts spend their time on judgement, not lookups and copying."
     ]
   },
   "healthcare-outreach": {
     "role": "Full-stack & applied AI engineering",
-    "scope": "Patient outreach & operations",
-    "focus": "Voice AI, follow-up & reporting",
+    "scope": "US healthcare pharmacy · Jul 2025 – Aug 2026",
+    "focus": "Voice AI agents, QC & CRM automation",
     "lead": "Build the product around the conversation.",
-    "overview": "A healthcare outreach team needed to reach patients by phone and text at volume, without missed follow-ups, duplicate calls, or notes copied into the CRM by hand. I built the platform end to end: the dashboard staff work in every day, the backend that schedules and tracks every call and message, and the AI voice agents’ place in that workflow.",
+    "overview": "A US healthcare pharmacy needed to reach thousands of patients by phone and text without missed follow-ups, duplicate calls, or notes copied into the CRM by hand. I built the platform end to end: multiple AI voice agents, the backend that schedules and tracks every call and message, AI quality control for every recorded call, and the dashboards the team works in every day.",
     "ownership": [
-      "Built the operations dashboard in React and TypeScript: call records, KPIs, agent and campaign performance, transcripts, charts, and CSV exports.",
-      "Built the FastAPI backend and background workers that run multi-day outreach sequences across AI calls and SMS, within calling hours.",
-      "Connected Retell AI voice agents for inbound, outbound, and callback calls, plus goal-specific call workflows.",
-      "Added LLM-assisted call review that records each call’s outcome, sentiment, urgency, and next step, and a quality-control workspace for evaluating calls.",
-      "Kept the GoHighLevel CRM in sync with every outcome, and built do-not-call handling, roles and permissions, and service-health monitoring."
+      "Built a multi-agent voice-AI platform on Retell AI, with outbound, inbound, and processing agents, that has handled more than 80,000 calls.",
+      "Ran 14-day outreach sequences of 7 calls and 6 texts for about 6,600 patients, with 650+ sequences running at once, do-not-call compliance, and race-safe enrollment.",
+      "Built LangGraph quality-control agents that transcribe, separate speakers, and score every recorded call, averaging a 94%+ QC score.",
+      "Built an MCP server with 29 tools that gives Claude live call, QC, and cost data.",
+      "Added LLM post-call analysis that records each call’s outcome, sentiment, and urgency, and writes patient, insurance, and follow-up details back to GoHighLevel, with automatic retries, a provider-outage safety switch, and self-healing checks for stalled sequences.",
+      "Integrated GoHighLevel (opportunities, pipelines, workflows, webhooks, tags), Monday.com, and Voxo through an event-driven backend, and built the React dashboards for calls, QC, and costs."
     ],
     "numbers": [
       {
-        "value": "7",
-        "label": "touches per outreach sequence, across calls and SMS"
+        "value": "80,000+",
+        "label": "AI calls handled"
       },
       {
-        "value": "14",
-        "label": "days each sequence runs, with no manual scheduling"
+        "value": "94%",
+        "label": "average QC score on reviewed calls (94%+)"
       },
       {
-        "value": "10",
-        "label": "goal-specific AI call workflows"
+        "value": "6,600",
+        "label": "patients in 14-day call and SMS outreach"
       },
       {
-        "value": "8+",
-        "label": "external services connected into one workspace"
+        "value": "29",
+        "label": "MCP tools for live call, QC, and cost data"
       }
     ],
     "tools": [
@@ -207,34 +308,43 @@ module.exports = {
         ]
       },
       {
-        "group": "AI & integrations",
+        "group": "AI",
         "items": [
           "Retell AI",
+          "LangGraph",
+          "ElevenLabs",
           "Anthropic Claude",
           "OpenAI-compatible LLMs",
-          "GoHighLevel CRM",
           "Model Context Protocol"
+        ]
+      },
+      {
+        "group": "Integrations",
+        "items": [
+          "GoHighLevel CRM",
+          "Monday.com",
+          "Voxo"
         ]
       }
     ],
     "outcomes": [
-      "Calls, texts, reviews, and CRM updates in one workspace instead of several disconnected tools.",
+      "More than 80,000 calls handled by AI agents, with every call reviewed and scored.",
       "Every call ends with a recorded outcome and a CRM update, with no notes copied by hand.",
-      "Follow-ups run on schedule and respect calling hours and do-not-call requests automatically."
+      "Follow-ups run on schedule, respect calling hours and do-not-call requests, and recover on their own when something stalls."
     ]
   },
   "document-workspace": {
     "role": "Full-stack & document AI engineering",
-    "scope": "Legal-document workflows",
+    "scope": "Legal firm · Jul 2026 – Aug 2026",
     "focus": "Cited answers & PDF automation",
     "lead": "Turn complex document work into a usable product.",
-    "overview": "Legal-document work means large PDF packages, repetitive notices, signatures, and domain questions that a generic chatbot can’t answer reliably. I built the product end to end, a Next.js workspace and a FastAPI backend, so research, document preparation, and review happen in one place.",
+    "overview": "A legal firm works with large PDF packages, repetitive notices, signatures, and legal questions that a generic chatbot can’t answer reliably. I built the product end to end, a Next.js workspace and a FastAPI backend, so research, document preparation, and review happen in one place.",
     "ownership": [
-      "Built an AI assistant that answers in English or Spanish, streams its response, and cites the source passages it used.",
-      "Built document processing that turns large PDF packages into a structured record, with a human review and approval step before anything is used.",
-      "Built template-based generation of legal notices, with electronic signatures and finished PDF output.",
+      "Built an AI legal assistant that answers in English or Spanish from the firm’s own library (law textbooks, case files, lecture recordings, and a legal dictionary), streams its response, and cites the exact sources it used.",
+      "Automated the review of large, unordered PDF packages: an AI pipeline on AWS Lambda and SQS reads each page’s identifiers, puts the pages back in order, and flags conflicts for staff approval before anything is used.",
+      "Turned approved records into ready-to-send legal notices: generated from templates, signed electronically, and stamped on every page.",
       "Built an in-browser stamp editor: drag, scale, and rotate a stamp, preview it, and apply it to every page.",
-      "Built the workspace itself: upload, preview, versioning, ownership checks, paginated lists, and download, backed by automated tests on both ends."
+      "Built the workspace itself: upload, preview, versioning, ownership checks, paginated lists, and download, backed by 176 automated tests across frontend and backend."
     ],
     "numbers": [
       {
@@ -242,12 +352,12 @@ module.exports = {
         "label": "languages supported by the assistant: English and Spanish"
       },
       {
-        "value": "176",
-        "label": "automated tests across frontend and backend"
+        "value": "4",
+        "label": "kinds of source material the assistant cites"
       },
       {
-        "value": "160+",
-        "label": "commits shipped in about four months"
+        "value": "176",
+        "label": "automated tests across frontend and backend"
       },
       {
         "value": "1",
@@ -314,16 +424,16 @@ module.exports = {
   },
   "product-advisor": {
     "role": "Backend & applied AI engineering",
-    "scope": "Consumer product guidance",
+    "scope": "Online pharmacy · Mar 2025 – Aug 2026",
     "focus": "Multilingual, multimodal AI",
     "lead": "Meet people in the way they choose to ask.",
-    "overview": "Customers of a skincare and pharmacy business wanted personal product advice in their own language, in whatever form they chose to ask: a typed question, a voice note, or a short video of their skin. I built the production backend behind that advisor, including its AI, subscriptions, and catalog sync, over roughly a year and a half.",
+    "overview": "Customers of an online skincare and pharmacy business wanted personal product advice in their own language, in whatever form they chose to ask: a typed question, a voice note, or a short video of their skin. I built the production backend behind that advisor, including its AI, subscriptions, and catalog sync.",
     "ownership": [
-      "Built the Django REST backend that powers the advisor and connects to the client’s existing user accounts.",
-      "Built multilingual product Q&A grounded in the product catalog, using retrieval and reranking (RAG).",
-      "Added voice questions through speech-to-text, and video-based skin analysis that feeds into product recommendations.",
-      "Built Stripe subscriptions with plan limits and usage quotas.",
-      "Built automatic catalog sync, so recommendations follow product changes without manual updates."
+      "Built the backend for an AI shopping advisor that customers talk to by text, voice, or video in Italian, English, or French, which recommends catalog products and adds them to the cart.",
+      "Built video skin analysis: the system picks the clearest frame from the customer’s video, Gemini assesses the skin, and the findings become personalized product recommendations.",
+      "Built the multilingual RAG pipeline: query expansion, OpenAI embeddings in ChromaDB, Jina reranking of the top 15 results down to 5, answers from Llama 3.3 70B on Groq, and Whisper for voice questions.",
+      "Kept recommendations in sync with the live catalog through an event-driven pipeline (MySQL, SQS, Lambda) with signed requests.",
+      "Built Stripe subscriptions with plan limits and usage quotas, on Django, Celery, and Redis."
     ],
     "numbers": [
       {
@@ -331,16 +441,16 @@ module.exports = {
         "label": "ways to ask: text, voice, or video"
       },
       {
-        "value": "4",
+        "value": "3",
+        "label": "languages: Italian, English, and French"
+      },
+      {
+        "value": "5",
         "label": "AI services working together behind one answer"
       },
       {
-        "value": "19",
+        "value": "18",
         "label": "months of production development"
-      },
-      {
-        "value": "240+",
-        "label": "commits shipped"
       }
     ],
     "tools": [

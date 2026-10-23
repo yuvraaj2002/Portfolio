@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
-const {projects, details, render, skills, skillsScript, testimonials} = require('./build-case-studies.cjs');
+const {projects, details, previews, render, skills, skillsScript, testimonials} = require('./build-case-studies.cjs');
 const {assertPublicContent, assertPublicText, isClientWork} = require('./publication-policy.cjs');
 const root = __dirname;
 const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
@@ -112,7 +112,7 @@ assert.throws(() => assertPublicContent(projects, {...details, 'ai-gateway':{...
 assert.ok(projects.find(project=>project.id==='ai-gateway').stack.includes('LiteLLM'));
 assert.ok(projects.find(project=>project.id==='citation-intelligence').stack.includes('Vision-Language Models'));
 const published = fs.readdirSync(path.join(root,'dist'), {recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>path.relative(path.join(root,'dist'),path.join(entry.parentPath,entry.name)).replaceAll(path.sep,'/'));
-const allowed = new Set(['.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile.png','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`)]);
+const allowed = new Set([...Object.values(previews).map(item=>item.image),'.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile.png','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`)]);
 allowed.add('weekend-builds/index.html');
 assert.deepEqual(new Set(published),allowed,'Unexpected or missing file in publication artifact');
 const weekends = fs.readFileSync(path.join(root,'weekend-builds/index.html'),'utf8');
@@ -127,6 +127,10 @@ for (const [,value] of weekends.matchAll(/(?:href|src)="([^"]+)"/g)) {
   if (fs.existsSync(target) && fs.statSync(target).isDirectory()) target = path.join(target,'index.html');
   assert.ok(fs.existsSync(target), `Broken weekend URL: ${value}`);
   if (fragment) assert.ok(fs.readFileSync(target,'utf8').includes(`id="${fragment}"`));
+}
+for (const [id, item] of Object.entries(previews)) {
+  assert.ok(projects.some(project => project.id === id && isClientWork(project)), `Previews are for client work only: ${id}`);
+  assert.ok(fs.existsSync(path.join(root, item.image)), `Missing preview image: ${item.image}`);
 }
 for(const file of ['index.html','app.js','content.js']) assertPublicText(fs.readFileSync(path.join(root,'dist',file),'utf8'),file);
 console.log('PASS: 7 minimal public overviews; client tools and numbers; skills overview; testimonials; no implementation fields or walkthroughs; reviewed keywords; publication allowlist; 4 filters; links; escaped copy; grayscale styling.');

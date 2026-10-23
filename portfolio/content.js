@@ -5,7 +5,7 @@ window.PORTFOLIO_PROJECTS = [
     "category": "Relecura",
     "eyebrow": "PATENT INTELLIGENCE",
     "title": "Explainable patent classification.",
-    "summary": "AI-assisted patent classification designed to support clearer analysis and informed decisions.",
+    "summary": "An explainable classifier that suggests up to three categories per patent with justifications: 87.8% top-1 and 98.2% top-3 accuracy, up to 100,000 publications per job.",
     "stack": [
       "Generative AI",
       "Patent Intelligence",
@@ -17,7 +17,7 @@ window.PORTFOLIO_PROJECTS = [
     "category": "Relecura",
     "eyebrow": "DOCUMENT INTELLIGENCE",
     "title": "Citation intelligence.",
-    "summary": "Document AI that helps people find and review references in complex technical material.",
+    "summary": "A serverless document-AI pipeline that extracts, enriches, and highlights the citations in large patent PDFs, running OCR only where it is needed.",
     "stack": [
       "Vision-Language Models",
       "Document AI",
@@ -29,7 +29,7 @@ window.PORTFOLIO_PROJECTS = [
     "category": "Relecura",
     "eyebrow": "AI PLATFORM ENGINEERING",
     "title": "One gateway for model access.",
-    "summary": "AI platform work focused on a consistent model-access experience for product teams.",
+    "summary": "A private LiteLLM gateway: one OpenAI-compatible API over four models, with per-service keys, rate limits, spend tracking, and automatic rollback.",
     "stack": [
       "LiteLLM",
       "AI Platform",
@@ -40,8 +40,8 @@ window.PORTFOLIO_PROJECTS = [
     "id": "maxval-ip-workflows",
     "category": "MaxVal",
     "eyebrow": "INTELLECTUAL PROPERTY · PROCESS ASSOCIATE",
-    "title": "AI for intellectual property workflows.",
-    "summary": "Applied AI to support intellectual-property analysis and reduce repetitive manual work.",
+    "title": "AI agents for IP workflows.",
+    "summary": "Playwright automations with vision-based AI agents for USPTO research and document work, saving 18–20 hours a week.",
     "stack": [
       "Machine Learning",
       "Generative AI",
@@ -53,7 +53,7 @@ window.PORTFOLIO_PROJECTS = [
     "category": "Product Partnerships",
     "eyebrow": "VOICE AI · HEALTHCARE OUTREACH",
     "title": "Voice AI with an operations backbone.",
-    "summary": "An AI calling and SMS platform for a healthcare outreach team: automated patient follow-up, call review, CRM sync, and the dashboards that run it.",
+    "summary": "A multi-agent voice-AI platform for a US healthcare pharmacy: 80,000+ calls, AI quality control on every call, GoHighLevel sync, and the dashboards that run it.",
     "stack": [
       "Voice AI",
       "FastAPI",
@@ -65,7 +65,7 @@ window.PORTFOLIO_PROJECTS = [
     "category": "Product Partnerships",
     "eyebrow": "LEGAL DOCUMENT AI",
     "title": "A complete document workspace.",
-    "summary": "A full-stack workspace for legal documents: a bilingual AI assistant that cites its sources, PDF processing with human review, and document generation and signing.",
+    "summary": "A full-stack workspace for a legal firm: a bilingual AI assistant that cites its sources, PDF packages put back in order with human review, and signed, stamped notices.",
     "stack": [
       "RAG",
       "Next.js",
@@ -77,7 +77,7 @@ window.PORTFOLIO_PROJECTS = [
     "category": "Product Partnerships",
     "eyebrow": "MULTIMODAL PRODUCT AI",
     "title": "Multimodal product advice.",
-    "summary": "A production AI advisor for a skincare and pharmacy business that answers by text, voice, or video in the customer’s language, with subscriptions built in.",
+    "summary": "A production AI advisor for an online pharmacy that answers by text, voice, or video in Italian, English, or French, including video skin analysis and subscriptions.",
     "stack": [
       "Multimodal AI",
       "RAG",

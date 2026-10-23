@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const details = require('./case-studies.cjs');
+const previews = require('./live-previews.cjs');
 const {buildSkills} = require('./skills.cjs');
 const {assertPublicContent, assertPublicText, isClientWork} = require('./publication-policy.cjs');
 const context = {window: {}};
@@ -25,9 +26,12 @@ const categoryKeys = {Relecura:'relecura', MaxVal:'maxval', 'Product Partnership
 function render(project, index) {
   const detail = details[project.id];
   if (!detail) throw new Error(`Missing case study: ${project.id}`);
+  const preview = previews[project.id];
+  if (preview?.url && !/^https:\/\/[a-z0-9.-]+\/[^\s"<>]*$/i.test(preview.url)) throw new Error(`Invalid live link: ${project.id}`);
+  const visit = preview?.url ? `<a class="button button-primary case-live-link" href="${escape(preview.url)}" target="_blank" rel="noopener noreferrer">Visit the live platform <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>` : '';
   const next = projects[(index + 1) % projects.length];
   const back = `../../?category=${categoryKeys[project.category]}#work`;
-  const sections = [['overview', 'Overview'], ['contribution', 'My contribution'], detail.numbers && ['numbers', 'By the numbers'], detail.tools && ['tools', 'Tools & technologies'], ['outcomes', 'Work supported'], ['boundaries', 'Public overview']].filter(Boolean);
+  const sections = [['overview', 'Overview'], ['contribution', 'My contribution'], detail.numbers && ['numbers', 'By the numbers'], detail.tools && ['tools', 'Tools & technologies'], ['outcomes', 'Work supported'], preview && ['live', 'See it live'], ['boundaries', 'Public overview']].filter(Boolean);
   const list = items => items.map(item => `<li>${escape(item)}</li>`).join('');
   return `<!doctype html>
 <html lang="en">
@@ -41,7 +45,7 @@ function render(project, index) {
   <meta property="og:description" content="${escape(project.summary)}">
   <title>${escape(project.title)} — Yuvraj Singh</title>
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../../styles.css?v=case-stack-1">
+  <link rel="stylesheet" href="../../styles.css?v=case-preview-2">
   <link rel="stylesheet" href="../../vendor/lenis.css">
   <script src="../../vendor/lenis.min.js" defer></script>
   <script src="../../smooth-scroll.js" defer></script>
@@ -49,7 +53,7 @@ function render(project, index) {
 </head>
 <body class="case-page">
   <a class="skip-link" href="#main">Skip to case study</a>
-  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../../">Yuvraj Singh.</a><div class="nav-links"><a href="../../#experience">The journey</a><a href="${back}">Back to the work ↖</a><a class="nav-contact" href="../../#contact">Let’s talk ↗</a></div></nav></header>
+  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../../">Yuvraj Singh.</a><div class="nav-links"><a href="../../#experience">The journey</a><a href="${back}">Back to the work ↖</a><a href="https://drive.google.com/file/d/1HlJzSzKu_8rdCoci_MANhUb8lVRvT-_i/view?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗<span class="sr-only"> (opens in a new tab)</span></a><a class="nav-contact" href="../../#contact">Let’s talk ↗</a></div></nav></header>
   <main id="main">
     <section class="case-hero case-shell" aria-labelledby="case-title">
       <a class="case-back" href="${back}">← ${escape(project.category)} / All work</a>
@@ -68,7 +72,8 @@ function render(project, index) {
 ${detail.numbers ? `        <section class="case-chapter" id="numbers" aria-labelledby="numbers-heading"><p class="section-label">BY THE NUMBERS</p><h2 id="numbers-heading">The scale.</h2><dl class="case-numbers">${detail.numbers.map(stat => `<div><dt>${escape(stat.value)}</dt><dd>${escape(stat.label)}</dd></div>`).join('')}</dl></section>
 ` : ''}${detail.tools ? `        <section class="case-chapter" id="tools" aria-labelledby="tools-heading"><p class="section-label">TOOLS &amp; TECHNOLOGIES</p><h2 id="tools-heading">The stack.</h2><dl class="case-tools">${detail.tools.map(group => `<div><dt>${escape(group.group)}</dt><dd>${group.items.map(item => `<span>${escape(item)}</span>`).join('')}</dd></div>`).join('')}</dl></section>
 ` : ''}        <section class="case-chapter" id="outcomes" aria-labelledby="outcomes-heading"><p class="section-label">WHAT THE WORK SUPPORTS</p><h2 id="outcomes-heading">The value.</h2><ul class="case-deliverables">${list(detail.outcomes)}</ul></section>
-        <section class="case-chapter case-disclosure" id="boundaries" aria-labelledby="boundaries-heading"><h2 id="boundaries-heading">Public overview.</h2><p>This page summarizes my contribution${detail.tools ? ' and the tools I used' : ''} at a high level. Proprietary implementation details, company and partner data, and internal documentation are not disclosed.</p></section>
+${preview ? `        <section class="case-chapter" id="live" aria-labelledby="live-heading"><p class="section-label">THE PRODUCT</p><h2 id="live-heading">See it live.</h2><figure class="case-preview">${preview.url ? `<a href="${escape(preview.url)}" target="_blank" rel="noopener noreferrer" aria-label="Open the live platform (opens in a new tab)">` : ''}<span class="case-preview-bar" aria-hidden="true"><i></i><i></i><i></i>${preview.url ? `<b>${escape(new URL(preview.url).host)}</b>` : ''}</span><img src="../../${escape(preview.image)}" alt="Homepage of the ${escape(preview.label.toLowerCase())}" width="1440" height="${preview.height || 900}" loading="lazy" decoding="async">${preview.url ? '</a>' : ''}<figcaption>${escape(preview.label)}${preview.url ? ' · live' : ''}</figcaption></figure>${visit}</section>
+` : ''}        <section class="case-chapter case-disclosure" id="boundaries" aria-labelledby="boundaries-heading"><h2 id="boundaries-heading">Public overview.</h2><p>This page summarizes my contribution${detail.tools ? ' and the tools I used' : ''} at a high level. Proprietary implementation details, company and partner data, and internal documentation are not disclosed.</p></section>
       </div>
     </div>
     <div class="case-shell"><a class="case-next" href="../${next.id}/"><span class="section-label">MORE WORK · ${escape(next.category)}</span><span class="case-next-title">${escape(next.title)}</span><span class="case-next-arrow" aria-hidden="true">↗</span></a><div class="case-bottom"><a href="${back}">← Back to ${escape(project.category)} work</a><a href="https://www.linkedin.com/in/yuvraaj-singh/" target="_blank" rel="noopener noreferrer">Get in touch ↗<span class="sr-only"> (opens in a new tab)</span></a></div></div>
@@ -101,7 +106,7 @@ function build() {
     fs.writeFileSync(path.join(published, 'index.html'), html);
   }
   fs.writeFileSync(path.join(__dirname, 'skills.js'), skillsScript());
-  const runtime = ['index.html','weekend-builds/index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item => item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile.png','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE'];
+  const runtime = [...Object.values(previews).map(item => item.image),'index.html','weekend-builds/index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item => item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile.png','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE'];
   for (const file of runtime) {
     const source = path.join(__dirname, file);
     if (['index.html','app.js','content.js'].includes(file)) assertPublicText(fs.readFileSync(source,'utf8'), file);
@@ -114,5 +119,5 @@ function build() {
   if (samples) console.log(`Note: ${samples} sample testimonial(s) are hidden; the section appears once real feedback is added.`);
 }
 
-module.exports = {render, projects, details, skills, skillsScript, testimonials};
+module.exports = {render, projects, details, previews, skills, skillsScript, testimonials};
 if (require.main === module) build();

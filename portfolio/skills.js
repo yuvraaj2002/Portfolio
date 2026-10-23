@@ -4,6 +4,15 @@ window.PORTFOLIO_SKILLS = [
     "group": "AI capabilities",
     "items": [
       {
+        "name": "Structured outputs",
+        "count": 3,
+        "projects": [
+          "patent-classification",
+          "citation-intelligence",
+          "maxval-ip-workflows"
+        ]
+      },
+      {
         "name": "Generative AI",
         "count": 2,
         "projects": [
@@ -16,6 +25,30 @@ window.PORTFOLIO_SKILLS = [
         "count": 2,
         "projects": [
           "document-workspace",
+          "product-advisor"
+        ]
+      },
+      {
+        "name": "Vision-Language Models",
+        "count": 2,
+        "projects": [
+          "citation-intelligence",
+          "maxval-ip-workflows"
+        ]
+      },
+      {
+        "name": "Document AI",
+        "count": 2,
+        "projects": [
+          "citation-intelligence",
+          "maxval-ip-workflows"
+        ]
+      },
+      {
+        "name": "LLM reranking",
+        "count": 2,
+        "projects": [
+          "patent-classification",
           "product-advisor"
         ]
       },
@@ -34,20 +67,6 @@ window.PORTFOLIO_SKILLS = [
         ]
       },
       {
-        "name": "Vision-Language Models",
-        "count": 1,
-        "projects": [
-          "citation-intelligence"
-        ]
-      },
-      {
-        "name": "Document AI",
-        "count": 1,
-        "projects": [
-          "citation-intelligence"
-        ]
-      },
-      {
         "name": "OCR",
         "count": 1,
         "projects": [
@@ -59,6 +78,34 @@ window.PORTFOLIO_SKILLS = [
         "count": 1,
         "projects": [
           "patent-classification"
+        ]
+      },
+      {
+        "name": "Hybrid search",
+        "count": 1,
+        "projects": [
+          "patent-classification"
+        ]
+      },
+      {
+        "name": "Tool calling",
+        "count": 1,
+        "projects": [
+          "citation-intelligence"
+        ]
+      },
+      {
+        "name": "AI agents",
+        "count": 1,
+        "projects": [
+          "maxval-ip-workflows"
+        ]
+      },
+      {
+        "name": "Multimodal LLMs",
+        "count": 1,
+        "projects": [
+          "citation-intelligence"
         ]
       },
       {
@@ -154,6 +201,27 @@ window.PORTFOLIO_SKILLS = [
         ]
       },
       {
+        "name": "LangGraph",
+        "count": 1,
+        "projects": [
+          "healthcare-outreach"
+        ]
+      },
+      {
+        "name": "ElevenLabs",
+        "count": 1,
+        "projects": [
+          "healthcare-outreach"
+        ]
+      },
+      {
+        "name": "ONNX Runtime",
+        "count": 1,
+        "projects": [
+          "citation-intelligence"
+        ]
+      },
+      {
         "name": "Model Context Protocol",
         "count": 1,
         "projects": [
@@ -167,10 +235,11 @@ window.PORTFOLIO_SKILLS = [
     "items": [
       {
         "name": "Python",
-        "count": 5,
+        "count": 6,
         "projects": [
           "patent-classification",
           "citation-intelligence",
+          "maxval-ip-workflows",
           "healthcare-outreach",
           "document-workspace",
           "product-advisor"
@@ -237,6 +306,13 @@ window.PORTFOLIO_SKILLS = [
         "count": 1,
         "projects": [
           "patent-classification"
+        ]
+      },
+      {
+        "name": "Playwright",
+        "count": 1,
+        "projects": [
+          "maxval-ip-workflows"
         ]
       },
       {
@@ -356,6 +432,14 @@ window.PORTFOLIO_SKILLS = [
         ]
       },
       {
+        "name": "Amazon RDS",
+        "count": 2,
+        "projects": [
+          "ai-gateway",
+          "product-advisor"
+        ]
+      },
+      {
         "name": "MySQL",
         "count": 1,
         "projects": [
@@ -408,6 +492,15 @@ window.PORTFOLIO_SKILLS = [
         ]
       },
       {
+        "name": "Docker",
+        "count": 3,
+        "projects": [
+          "patent-classification",
+          "citation-intelligence",
+          "ai-gateway"
+        ]
+      },
+      {
         "name": "GitHub Actions",
         "count": 3,
         "projects": [
@@ -425,7 +518,7 @@ window.PORTFOLIO_SKILLS = [
         ]
       },
       {
-        "name": "Docker",
+        "name": "Trivy",
         "count": 2,
         "projects": [
           "patent-classification",
@@ -461,6 +554,27 @@ window.PORTFOLIO_SKILLS = [
         ]
       },
       {
+        "name": "Application Load Balancer",
+        "count": 1,
+        "projects": [
+          "ai-gateway"
+        ]
+      },
+      {
+        "name": "AWS Secrets Manager",
+        "count": 1,
+        "projects": [
+          "ai-gateway"
+        ]
+      },
+      {
+        "name": "GitHub OIDC",
+        "count": 1,
+        "projects": [
+          "ai-gateway"
+        ]
+      },
+      {
         "name": "Infrastructure as code",
         "count": 1,
         "projects": [
@@ -481,6 +595,20 @@ window.PORTFOLIO_SKILLS = [
       },
       {
         "name": "GoHighLevel CRM",
+        "count": 1,
+        "projects": [
+          "healthcare-outreach"
+        ]
+      },
+      {
+        "name": "Monday.com",
+        "count": 1,
+        "projects": [
+          "healthcare-outreach"
+        ]
+      },
+      {
+        "name": "Voxo",
         "count": 1,
         "projects": [
           "healthcare-outreach"
