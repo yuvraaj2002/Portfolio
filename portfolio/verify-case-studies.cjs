@@ -114,10 +114,25 @@ assert.ok(projects.find(project=>project.id==='citation-intelligence').stack.inc
 const published = fs.readdirSync(path.join(root,'dist'), {recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>path.relative(path.join(root,'dist'),path.join(entry.parentPath,entry.name)).replaceAll(path.sep,'/'));
 const allowed = new Set([...Object.values(previews).map(item=>item.image),'.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile.png','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`)]);
 allowed.add('weekend-builds/index.html');
+allowed.add('blogs/index.html');
+allowed.add('nav.js');
 assert.deepEqual(new Set(published),allowed,'Unexpected or missing file in publication artifact');
 const weekends = fs.readFileSync(path.join(root,'weekend-builds/index.html'),'utf8');
 assert.equal(fs.readFileSync(path.join(root,'dist/weekend-builds/index.html'),'utf8'),weekends);
 assert.ok(home.includes('href="weekend-builds/"'), 'Side projects must be reachable from navigation');
+assert.ok(home.includes('href="blogs/"'), 'Blogs must be reachable from navigation');
+const blogs = fs.readFileSync(path.join(root,'blogs/index.html'),'utf8');
+assert.equal(fs.readFileSync(path.join(root,'dist/blogs/index.html'),'utf8'), blogs);
+assert.ok(blogs.includes('https://hashnode.com/@Yuvraj01'));
+assert.equal([...blogs.matchAll(/<li><a href="https:\/\/yuvraj01\.hashnode\.dev\//g)].length, 40, 'Every public Hashnode post should be listed');
+for (const [,value] of blogs.matchAll(/(?:href|src)="([^"]+)"/g)) {
+  if (/^https?:/.test(value)) continue;
+  const [resource,fragment] = value.split('#');
+  let target = resource ? path.resolve(root,'blogs',resource.split('?')[0]) : path.join(root,'blogs/index.html');
+  if (fs.existsSync(target) && fs.statSync(target).isDirectory()) target = path.join(target,'index.html');
+  assert.ok(fs.existsSync(target), `Broken blogs URL: ${value}`);
+  if (fragment) assert.ok(fs.readFileSync(target,'utf8').includes(`id="${fragment}"`));
+}
 assert.ok(!home.includes('id="diffstory-title"'), 'Side projects belong on their own page');
 assert.ok(weekends.includes('https://github.com/yuvraaj2002/DiffStory'));
 for (const [,value] of weekends.matchAll(/(?:href|src)="([^"]+)"/g)) {
