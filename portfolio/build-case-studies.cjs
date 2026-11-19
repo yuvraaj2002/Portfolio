@@ -4,6 +4,7 @@ const vm = require('node:vm');
 const details = require('./case-studies.cjs');
 const previews = require('./live-previews.cjs');
 const {buildSkills} = require('./skills.cjs');
+const {buildBlogs} = require('./build-blogs.cjs');
 const {assertPublicContent, assertPublicText, isClientWork} = require('./publication-policy.cjs');
 const context = {window: {}};
 vm.runInNewContext(fs.readFileSync(path.join(__dirname, 'content.js'), 'utf8'), context);
@@ -108,7 +109,19 @@ function build() {
     fs.writeFileSync(path.join(published, 'index.html'), html);
   }
   fs.writeFileSync(path.join(__dirname, 'skills.js'), skillsScript());
-  const runtime = [...Object.values(previews).map(item => item.image),'index.html','weekend-builds/index.html','blogs/index.html','styles.css','nav.js','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item => item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE'];
+  const blogPosts = buildBlogs();
+  const collectFiles = (dir, base = dir) => {
+    const entries = fs.readdirSync(dir, {withFileTypes:true});
+    return entries.flatMap(entry => {
+      const absolute = path.join(dir, entry.name);
+      if (entry.isDirectory()) return collectFiles(absolute, base);
+      return [path.relative(base, absolute).split(path.sep).join('/')];
+    });
+  };
+  const blogFiles = collectFiles(path.join(__dirname, 'blogs'), path.join(__dirname, 'blogs'))
+    .filter(file => !file.endsWith('.md'))
+    .map(file => `blogs/${file}`);
+  const runtime = [...Object.values(previews).map(item => item.image),'index.html','weekend-builds/index.html',...blogFiles,'styles.css','nav.js','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item => item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE'];
   for (const file of runtime) {
     const source = path.join(__dirname, file);
     if (['index.html','app.js','content.js'].includes(file)) assertPublicText(fs.readFileSync(source,'utf8'), file);
@@ -116,7 +129,7 @@ function build() {
     fs.mkdirSync(path.dirname(destination), {recursive:true});
     fs.copyFileSync(source, destination);
   }
-  console.log(`Built ${projects.length} public work overviews and an allowlisted site in dist/.`);
+  console.log(`Built ${projects.length} public work overviews, ${blogPosts.length} blog post(s), and an allowlisted site in dist/.`);
   const samples = testimonials.filter(item => item.sample).length;
   if (samples) console.log(`Note: ${samples} sample testimonial(s) are hidden; the section appears once real feedback is added.`);
 }

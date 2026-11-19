@@ -112,9 +112,19 @@ assert.throws(() => assertPublicContent(projects, {...details, 'ai-gateway':{...
 assert.ok(projects.find(project=>project.id==='ai-gateway').stack.includes('LiteLLM'));
 assert.ok(projects.find(project=>project.id==='citation-intelligence').stack.includes('Vision-Language Models'));
 const published = fs.readdirSync(path.join(root,'dist'), {recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>path.relative(path.join(root,'dist'),path.join(entry.parentPath,entry.name)).replaceAll(path.sep,'/'));
-const allowed = new Set([...Object.values(previews).map(item=>item.image),'.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`)]);
+const collectFiles = (dir, base = dir) => {
+  if (!fs.existsSync(dir)) return [];
+  return fs.readdirSync(dir, {withFileTypes:true}).flatMap(entry => {
+    const absolute = path.join(dir, entry.name);
+    if (entry.isDirectory()) return collectFiles(absolute, base);
+    return [path.relative(base, absolute).split(path.sep).join('/')];
+  });
+};
+const blogFiles = collectFiles(path.join(root,'blogs'), path.join(root,'blogs'))
+  .filter(file => !file.endsWith('.md'))
+  .map(file => `blogs/${file}`);
+const allowed = new Set([...Object.values(previews).map(item=>item.image),'.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`),...blogFiles]);
 allowed.add('weekend-builds/index.html');
-allowed.add('blogs/index.html');
 allowed.add('nav.js');
 assert.deepEqual(new Set(published),allowed,'Unexpected or missing file in publication artifact');
 const weekends = fs.readFileSync(path.join(root,'weekend-builds/index.html'),'utf8');
@@ -125,6 +135,16 @@ const blogs = fs.readFileSync(path.join(root,'blogs/index.html'),'utf8');
 assert.equal(fs.readFileSync(path.join(root,'dist/blogs/index.html'),'utf8'), blogs);
 assert.ok(blogs.includes('https://hashnode.com/@Yuvraj01'));
 assert.equal([...blogs.matchAll(/<li><a href="https:\/\/yuvraj01\.hashnode\.dev\//g)].length, 40, 'Every public Hashnode post should be listed');
+assert.ok(blogs.includes('href="./prompt-injection-cant-be-fully-solved/"'), 'Prompt injection post must be listed on Writing');
+assert.ok(blogs.includes('START HERE') && blogs.includes('writing-featured'), 'Writing page must feature the latest essay');
+assert.ok(blogs.includes('id="series"') && blogs.includes('AI Security'), 'Writing page must present the series path');
+assert.ok(blogs.includes('archive-panel') && blogs.includes('<details'), 'Hashnode archive should be secondary and collapsible');
+const promptPost = path.join(root,'blogs/prompt-injection-cant-be-fully-solved/index.html');
+assert.ok(fs.existsSync(promptPost), 'Prompt injection post page must exist');
+const promptHtml = fs.readFileSync(promptPost,'utf8');
+assert.ok(promptHtml.includes('Prompt Injection'), 'Prompt injection post should render from markdown');
+assert.ok(promptHtml.includes('UP NEXT IN SERIES') || promptHtml.includes('NEXT IN SERIES'), 'Post pages need series continuity');
+assert.ok(home.includes('blogs/prompt-injection-cant-be-fully-solved/'), 'Homepage should bridge to the latest essay');
 for (const [,value] of blogs.matchAll(/(?:href|src)="([^"]+)"/g)) {
   if (/^https?:/.test(value)) continue;
   const [resource,fragment] = value.split('#');

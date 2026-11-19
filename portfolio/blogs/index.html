@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Essays by Yuvraj Singh on machine learning, data, and the systems around them. Published on Hashnode.">
-  <title>Blogs — Yuvraj Singh</title>
+  <meta name="description" content="Engineering essays by Yuvraj Singh on AI security, LLM systems, and production guardrails. Start with the latest piece, then follow the series.">
+  <title>Writing — Yuvraj Singh</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../styles.css?v=connect-1">
+  <link rel="stylesheet" href="../styles.css?v=writing-1">
   <link rel="stylesheet" href="../vendor/lenis.css">
   <script src="../vendor/lenis.min.js" defer></script>
   <script src="../smooth-scroll.js" defer></script>
@@ -16,14 +16,144 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../">Yuvraj Singh.</a><div class="nav-links"><a href="../#work">Work</a><a href="../weekend-builds/">Builds</a><a href="./" aria-current="page">Writing</a><a href="https://drive.google.com/drive/folders/1nn5lLW_3h1EwfIEO0q5XM7mNQE1rlnuR?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗<span class="sr-only"> (opens in a new tab)</span></a></div></nav></header>
   <main id="main">
-    <section class="case-hero case-shell" aria-labelledby="blogs-title">
-      <p class="section-label">WRITING · HASHNODE · @YUVRAJ01</p>
-      <h1 id="blogs-title">Notes I published<br>while learning.</h1>
-      <p class="case-summary">Forty essays on machine learning, data, and the ideas underneath the systems. All of them live on Hashnode.</p>
-      <a class="button button-primary" href="https://hashnode.com/@Yuvraj01" target="_blank" rel="noopener noreferrer">Hashnode profile <span aria-hidden="true">↗</span><span class="sr-only"> (opens in a new tab)</span></a>
+    <section class="case-hero case-shell writing-hero" aria-labelledby="blogs-title">
+      <p class="section-label">WRITING · ENGINEERING NOTES</p>
+      <h1 id="blogs-title">What broke,<br>what I tried,<br>what held.</h1>
+      <p class="case-summary">Practical notes from building LLM systems in production. Start with the latest essay, then follow the series.</p>
     </section>
-    <div class="case-shell blogs-list">
-    <section class="blogs-year" aria-labelledby="blogs-2024"><h2 id="blogs-2024">2024</h2>
+
+    <section class="case-shell writing-featured" aria-labelledby="featured-title">
+      <p class="section-label">START HERE · LATEST ESSAY</p>
+      <a class="featured-essay" href="./prompt-injection-cant-be-fully-solved/">
+        <figure class="featured-cover">
+          <img src="./prompt-injection-cant-be-fully-solved/images/cover.jpg" alt="" width="1200" height="630" loading="eager">
+        </figure>
+        <div class="featured-copy">
+          <p class="featured-kicker">AI Security &amp; Guardrails · Post 01</p>
+          <h2 id="featured-title">Prompt Injection Can't Be Fully Solved, So Here's How I Contain It</h2>
+          <p class="featured-dek">Why there's no clean fix, and why the real question is what your model is allowed to do.</p>
+          <p class="featured-meta"><time datetime="2026-11-17">17 Nov 2026</time><span>·</span><span>9 min read</span></p>
+          <span class="featured-cta">Read the essay <span aria-hidden="true">→</span></span>
+        </div>
+      </a>
+    </section>
+
+    <section class="case-shell writing-series" id="series" aria-labelledby="series-title">
+      <div class="series-head">
+        <div>
+          <p class="section-label">SERIES</p>
+          <h2 id="series-title">AI Security &amp; Guardrails</h2>
+          <p class="series-dek">Containing prompt injection and jailbreaks, measuring classifiers, keeping untrusted data away from tools, and red-teaming agents.</p>
+        </div>
+        <p class="series-progress"><strong>1</strong> of 10 live</p>
+      </div>
+      <ol class="series-list">
+        <li class="is-live">
+          <a href="./prompt-injection-cant-be-fully-solved/">
+            <span class="series-num" aria-hidden="true">01</span>
+            <span class="series-body">
+              <span class="series-status">Live</span>
+              <span class="series-name">Prompt Injection Can't Be Fully Solved, So Here's How I Contain It</span>
+            </span>
+            <span class="series-go">Read →</span>
+          </a>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">02</span>
+            <span class="series-body">
+              <span class="series-status">Next</span>
+              <span class="series-name">Jailbreaks in Practice: Role-Play, Hypotheticals, and Encoding Tricks I Tested</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">03</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">Your Input Classifier Is Lying to You: Accuracy vs. Recall at 1% False Positives</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">04</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">How I Broke My Own Guard</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">05</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">Spotlighting: Delimiters, Data Marking, and Encoding, and How Each One Fails</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">06</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">The Dual-LLM Pattern: Keeping Untrusted Data Away from Your Tools</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">07</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">Security Lives in Your Code, Not Your Prompt</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">08</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">Stopping Data Leaks: Markdown Image Links, URLs, and PII Redaction with Presidio</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">09</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">Securing Agents and MCP Servers: Poisoned Tool Descriptions and the Confused Deputy</span>
+            </span>
+          </div>
+        </li>
+        <li>
+          <div>
+            <span class="series-num" aria-hidden="true">10</span>
+            <span class="series-body">
+              <span class="series-status">Soon</span>
+              <span class="series-name">Do Your Guardrails Work? Red-Teaming with Promptfoo and garak, Run on Every Commit</span>
+            </span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="case-shell writing-archive" aria-labelledby="archive-title">
+      <details class="archive-panel">
+        <summary>
+          <span class="section-label">EARLIER NOTES</span>
+          <span class="archive-summary-row">
+            <h2 id="archive-title">Forty essays on Hashnode</h2>
+            <span class="archive-hint">Open archive</span>
+          </span>
+          <p class="archive-dek">Older machine-learning and data notes from earlier in the journey. They live on Hashnode.</p>
+        </summary>
+        <div class="blogs-list archive-list">
+<section class="blogs-year" aria-labelledby="blogs-2024"><h2 id="blogs-2024">2024</h2>
       <ol class="blog-list">
         <li><a href="https://yuvraj01.hashnode.dev/get-your-data-in-shape-the-ultimate-guide-to-feature-scaling" target="_blank" rel="noopener noreferrer"><span class="blog-meta"><time datetime="2024-08-25">25 Aug 2024</time><span>6 min read</span></span><h3>Get Your Data in Shape: The Ultimate Guide to Feature Scaling</h3><span class="blog-go">Read <span aria-hidden="true">↗</span><span class="sr-only"> on Hashnode (opens in a new tab)</span></span></a></li>
       </ol></section>
@@ -72,8 +202,10 @@
         <li><a href="https://yuvraj01.hashnode.dev/basics-of-reinforcement-learning" target="_blank" rel="noopener noreferrer"><span class="blog-meta"><time datetime="2022-07-12">12 Jul 2022</time><span>3 min read</span></span><h3>Basics of Reinforcement Learning</h3><span class="blog-go">Read <span aria-hidden="true">↗</span><span class="sr-only"> on Hashnode (opens in a new tab)</span></span></a></li>
         <li><a href="https://yuvraj01.hashnode.dev/introduction-to-machine-learning-world" target="_blank" rel="noopener noreferrer"><span class="blog-meta"><time datetime="2022-07-11">11 Jul 2022</time><span>4 min read</span></span><h3>Introduction To Machine Learning World</h3><span class="blog-go">Read <span aria-hidden="true">↗</span><span class="sr-only"> on Hashnode (opens in a new tab)</span></span></a></li>
       </ol></section>
-      <p class="blogs-source">Listed from the public Hashnode profile. <a href="https://hashnode.com/@Yuvraj01" target="_blank" rel="noopener noreferrer">See the latest on Hashnode ↗<span class="sr-only"> (opens in a new tab)</span></a></p>
-    </div>
+          <p class="blogs-source">Listed from the public Hashnode profile. <a href="https://hashnode.com/@Yuvraj01" target="_blank" rel="noopener noreferrer">Hashnode profile ↗<span class="sr-only"> (opens in a new tab)</span></a></p>
+        </div>
+      </details>
+    </section>
   </main>
   <footer class="footer"><a class="wordmark" href="../">Yuvraj Singh.</a><p>Written in public. © <span id="year">2026</span></p><a href="#main">Back to top ↑</a></footer>
 </body>

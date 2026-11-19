@@ -7,6 +7,7 @@ dist/
 .playwright/
 *.log
 Resources/
+engineering-blogs/
 
 # Local-only publication guard patterns
 private-identifiers.local.txt
