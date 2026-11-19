@@ -112,7 +112,7 @@ assert.throws(() => assertPublicContent(projects, {...details, 'ai-gateway':{...
 assert.ok(projects.find(project=>project.id==='ai-gateway').stack.includes('LiteLLM'));
 assert.ok(projects.find(project=>project.id==='citation-intelligence').stack.includes('Vision-Language Models'));
 const published = fs.readdirSync(path.join(root,'dist'), {recursive:true,withFileTypes:true}).filter(entry=>entry.isFile()).map(entry=>path.relative(path.join(root,'dist'),path.join(entry.parentPath,entry.name)).replaceAll(path.sep,'/'));
-const allowed = new Set([...Object.values(previews).map(item=>item.image),'.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile.png','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`)]);
+const allowed = new Set([...Object.values(previews).map(item=>item.image),'.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`)]);
 allowed.add('weekend-builds/index.html');
 allowed.add('blogs/index.html');
 allowed.add('nav.js');

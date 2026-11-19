@@ -161,8 +161,9 @@
 .project-category{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:28px}.project-category .project-number{margin-bottom:0}.project-open::after{display:none}.project-card-content{height:100%}.project-card-content .project-footer{padding-top:32px}.art-caption{display:block}.diagram-line{font-size:0}.system-diagram{flex-direction:column}.diagram-node{width:min(100%,250px)}
 @media(max-width:760px){.system-diagram{gap:8px}.diagram-line{width:1px;height:15px}.diagram-node{width:220px;padding:14px;font-size:10px}.project-featured .project-art{padding-top:15px;padding-bottom:5px}.project-featured .project-footer{padding-top:28px}.art-caption{margin-top:15px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.js-reveal .reveal{opacity:1;transform:none}.project-card:hover,.button:hover{transform:none}}
-/* Larger hero portrait. */
+/* Larger hero portrait. The picture wrapper has to fill the column or the img's width:100% collapses. */
 .hero{grid-template-columns:minmax(0,1fr) 380px}
+.hero .portrait-frame picture{display:block;width:100%}
 @media(max-width:1000px){.hero{grid-template-columns:minmax(0,1fr) 290px}}
 @media(max-width:760px){.hero{grid-template-columns:minmax(0,1fr) 220px}}
 @media(max-width:520px){.hero{grid-template-columns:1fr}.hero .portrait-frame{max-width:340px}}
