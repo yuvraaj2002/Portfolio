@@ -37,9 +37,17 @@ function assertToolsAndNumbers(detail, id) {
   }
 }
 
+function assertDecision(detail, id) {
+  if (detail.decision === undefined) return;
+  assert.ok(detail.decision && typeof detail.decision === 'object' && !Array.isArray(detail.decision), `Decision shape: ${id}`);
+  assert.ok(Object.keys(detail.decision).join() === 'title,body', `Decision keys: ${id}`);
+  assert.ok(typeof detail.decision.title === 'string' && detail.decision.title.trim().length >= 8 && detail.decision.title.length <= 120, `Decision title: ${id}`);
+  assert.ok(typeof detail.decision.body === 'string' && detail.decision.body.trim().length >= 40 && detail.decision.body.length <= 900, `Decision body: ${id}`);
+}
+
 function assertPublicContent(projects, details) {
   const projectFields = new Set(['id','category','eyebrow','title','summary','stack']);
-  const detailFields = new Set(['role','scope','focus','lead','overview','ownership','numbers','tools','outcomes']);
+  const detailFields = new Set(['role','scope','focus','lead','overview','ownership','numbers','tools','outcomes','decision']);
   for (const project of projects) {
     assert.ok(Object.keys(project).every(key => projectFields.has(key)), `Unexpected public project field: ${project.id}`);
     const detail = details[project.id];
@@ -47,6 +55,7 @@ function assertPublicContent(projects, details) {
     assert.ok(Object.keys(detail).every(key => detailFields.has(key)), `Implementation field in ${project.id}`);
     assert.ok(project.stack.length <= 3 && project.stack.every(tag => approvedKeywords.has(tag)), `Unreviewed keywords: ${project.id}`);
     assertToolsAndNumbers(detail, project.id);
+    assertDecision(detail, project.id);
     assertPublicText(JSON.stringify(project), `${project.id} card`);
     assertPublicText(JSON.stringify(detail), project.id, {allowTools: isClientWork(project)});
   }

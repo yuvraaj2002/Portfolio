@@ -3,9 +3,9 @@ window.PORTFOLIO_PROJECTS = [
   {
     "id": "patent-classification",
     "category": "Relecura",
-    "eyebrow": "PATENT INTELLIGENCE",
-    "title": "Explainable patent classification.",
-    "summary": "An explainable classifier that suggests up to three categories per patent with justifications: 87.8% top-1 and 98.2% top-3 accuracy, up to 100,000 publications per job.",
+    "eyebrow": "PRODUCTION ML · OWNED END TO END",
+    "title": "Patent classification that nearly doubled the baseline.",
+    "summary": "Explainable patent classification with ranked suggestions and analyst-style justifications, measured against a labelled holdout and run at portfolio batch scale.",
     "stack": [
       "Generative AI",
       "Patent Intelligence",
@@ -15,8 +15,8 @@ window.PORTFOLIO_PROJECTS = [
   {
     "id": "citation-intelligence",
     "category": "Relecura",
-    "eyebrow": "DOCUMENT INTELLIGENCE",
-    "title": "Citation intelligence.",
+    "eyebrow": "DOCUMENT AI · COST-AWARE PIPELINES",
+    "title": "Citation extraction that only OCRs what it needs.",
     "summary": "A serverless document-AI pipeline that extracts, enriches, and highlights the citations in large patent PDFs, running OCR only where it is needed.",
     "stack": [
       "Vision-Language Models",
@@ -27,8 +27,8 @@ window.PORTFOLIO_PROJECTS = [
   {
     "id": "ai-gateway",
     "category": "Relecura",
-    "eyebrow": "AI PLATFORM ENGINEERING",
-    "title": "One gateway for model access.",
+    "eyebrow": "LLM PLATFORM · RELIABILITY & SPEND",
+    "title": "One gateway so every service stops reinventing model access.",
     "summary": "A private LiteLLM gateway: one OpenAI-compatible API over four models, with per-service keys, rate limits, spend tracking, and automatic rollback.",
     "stack": [
       "LiteLLM",
@@ -39,8 +39,8 @@ window.PORTFOLIO_PROJECTS = [
   {
     "id": "maxval-ip-workflows",
     "category": "MaxVal",
-    "eyebrow": "INTELLECTUAL PROPERTY · PROCESS ASSOCIATE",
-    "title": "AI agents for IP workflows.",
+    "eyebrow": "IP AUTOMATION · 18–20 HRS / WEEK SAVED",
+    "title": "Agents that did the USPTO work analysts used to repeat by hand.",
     "summary": "Playwright automations with vision-based AI agents for USPTO research and document work, saving 18–20 hours a week.",
     "stack": [
       "Machine Learning",
@@ -51,8 +51,8 @@ window.PORTFOLIO_PROJECTS = [
   {
     "id": "healthcare-outreach",
     "category": "Product Partnerships",
-    "eyebrow": "VOICE AI · HEALTHCARE OUTREACH",
-    "title": "Voice AI with an operations backbone.",
+    "eyebrow": "VOICE AI · 80K+ CALLS IN PRODUCTION",
+    "title": "Patient outreach that ops can run, review, and trust.",
     "summary": "A multi-agent voice-AI platform for a US healthcare pharmacy: 80,000+ calls, AI quality control on every call, GoHighLevel sync, and the dashboards that run it.",
     "stack": [
       "Voice AI",
@@ -63,8 +63,8 @@ window.PORTFOLIO_PROJECTS = [
   {
     "id": "document-workspace",
     "category": "Product Partnerships",
-    "eyebrow": "LEGAL DOCUMENT AI",
-    "title": "A complete document workspace.",
+    "eyebrow": "LEGAL AI · CITED ANSWERS + HUMAN REVIEW",
+    "title": "A legal workspace where the AI shows its sources.",
     "summary": "A full-stack workspace for a legal firm: a bilingual AI assistant that cites its sources, PDF packages put back in order with human review, and signed, stamped notices.",
     "stack": [
       "RAG",
@@ -75,8 +75,8 @@ window.PORTFOLIO_PROJECTS = [
   {
     "id": "product-advisor",
     "category": "Product Partnerships",
-    "eyebrow": "MULTIMODAL PRODUCT AI",
-    "title": "Multimodal product advice.",
+    "eyebrow": "MULTIMODAL AI · 3 LANGUAGES LIVE",
+    "title": "Product advice by text, voice, or video — in the customer’s language.",
     "summary": "A production AI advisor for an online pharmacy that answers by text, voice, or video in Italian, English, or French, including video skin analysis and subscriptions.",
     "stack": [
       "Multimodal AI",

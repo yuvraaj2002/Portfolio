@@ -5,12 +5,12 @@
   const grid = document.querySelector('#projects');
   const escape = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const workGroups = [
-    {key:'independent', title:'Product Partnerships', label:'INDEPENDENT ENGAGEMENTS', description:'AI-powered products built around client needs.'},
-    {key:'relecura', title:'Relecura', label:'CURRENT ORGANIZATION', description:'Applied AI and platform contributions within a product organization.'},
-    {key:'maxval', title:'MaxVal', label:'PREVIOUS ORGANIZATION', description:'Professional experience applying AI to intellectual-property workflows.'},
+    {key:'independent', title:'Product Partnerships', label:'CLIENT PRODUCTS SHIPPED', description:'End-to-end AI products I designed, built, and put into production for partners.'},
+    {key:'relecura', title:'Relecura', label:'CURRENT ROLE · AIML ENGINEER', description:'Core AI systems I own in production: classification, document intelligence, and the model gateway.'},
+    {key:'maxval', title:'MaxVal', label:'PRIOR ROLE · IP AUTOMATION', description:'Where I turned daily USPTO analyst work into durable AI-assisted pipelines.'},
   ];
   function projectCard(project, lead = false) {
-    return `<a class="project-card project-card-link ${lead ? 'work-group-lead' : ''}" href="work/${escape(project.id)}/" aria-label="View work overview: ${escape(project.title)}"><div class="project-card-content"><div class="project-category"><span>${escape(project.eyebrow || project.category)}</span><span class="project-number">${String(projects.indexOf(project) + 1).padStart(2, '0')}</span></div><h4 class="project-title">${escape(project.title)}</h4><p class="project-summary">${escape(project.summary)}</p><div class="project-tags" aria-label="Key skills">${project.stack.map(tag => `<span>${escape(tag)}</span>`).join('')}</div><div class="project-footer"><span>${escape(categoryKey(project.category) === 'independent' ? 'Product Partnerships' : project.category)}</span><span class="project-open">Get Details <span aria-hidden="true">↗</span></span></div></div></a>`;
+    return `<a class="project-card project-card-link ${lead ? 'work-group-lead' : ''}" href="work/${escape(project.id)}/" aria-label="View work overview: ${escape(project.title)}"><div class="project-card-content"><div class="project-category"><span>${escape(project.eyebrow || project.category)}</span><span class="project-number">${String(projects.indexOf(project) + 1).padStart(2, '0')}</span></div><h4 class="project-title">${escape(project.title)}</h4><p class="project-summary">${escape(project.summary)}</p><div class="project-tags" aria-label="Key skills">${project.stack.map(tag => `<span>${escape(tag)}</span>`).join('')}</div><div class="project-footer"><span>${escape(categoryKey(project.category) === 'independent' ? 'Product Partnerships' : project.category)}</span><span class="project-open">Read overview <span aria-hidden="true">↗</span></span></div></div></a>`;
   }
   function render(filter = 'all') {
     const key = categoryKey(filter);
@@ -171,7 +171,7 @@
       requestAnimationFrame(tick);
     }
   }
-  // Toolkit: filter by area or search, and pick a tool to see the projects behind it.
+  // Toolkit: Core + one area at a time; All shows a compact area summary instead of every chip.
   const skillGroups = window.PORTFOLIO_SKILLS || [];
   const skillsRoot = document.querySelector('#skills-groups');
   if (skillsRoot && skillGroups.length) {
@@ -183,12 +183,17 @@
     let area = 'all', query = '', selected = all.reduce((best, item) => item.count > best.count ? item : best, all[0]).name;
     const core = all.filter(item => item.count >= 3).sort((a, b) => b.count - a.count);
     const chip = item => `<button type="button" class="skill-chip${item.count >= 3 ? ' is-core' : ''}" data-skill="${escape(item.name)}" aria-pressed="${item.name === selected}"><span>${escape(item.name)}</span><span class="skill-count" aria-label="used in ${item.count} ${item.count === 1 ? 'project' : 'projects'}">${item.count}</span></button>`;
-    document.querySelector('#skills-stats').innerHTML = [[all.length, 'tools & technologies used'], [projects.length, 'projects they come from'], [core.length, 'core tools, each in 3+ projects']].map(([value, label]) => `<div><strong>${value}</strong><span>${label}</span></div>`).join('');
+    document.querySelector('#skills-stats').innerHTML = [[core.length, 'tools used across 3+ projects'], [projects.length, 'shipped projects represented'], [all.length, 'tools total, each linked to work']].map(([value, label]) => `<div><strong>${value}</strong><span>${label}</span></div>`).join('');
     tabs.innerHTML = [['all', 'All'], ...skillGroups.map(group => [group.group, group.group])].map(([value, label]) => `<button type="button" class="skills-tab" data-area="${escape(value)}" aria-pressed="${value === 'all'}">${escape(label)}</button>`).join('');
     // Tools that appear in the same projects, strongest overlap first.
     function paired(item) {
       const scored = all.filter(other => other.name !== item.name).map(other => ({name: other.name, shared: other.projects.filter(id => item.projects.includes(id)).length, count: other.count})).filter(other => other.shared).sort((a, b) => b.shared - a.shared || b.count - a.count).slice(0, 5);
       return scored.length ? `<p class="skills-detail-label skills-paired-label">Often paired with</p><div class="skills-paired">${scored.map(other => `<button type="button" data-skill="${escape(other.name)}">${escape(other.name)}</button>`).join('')}</div>` : '';
+    }
+    function setArea(next) {
+      area = next;
+      tabs.querySelectorAll('[data-area]').forEach(tab => tab.setAttribute('aria-pressed', String(tab.dataset.area === area)));
+      renderSkills();
     }
     function select(name) {
       selected = name;
@@ -200,26 +205,40 @@
       if (!item) { detail.innerHTML = ''; return; }
       detail.innerHTML = `<p class="skills-detail-label">${escape(item.group)}</p><h3>${escape(item.name)}</h3><p class="skills-detail-count">Used in <strong>${item.count}</strong> of ${projects.length} projects</p><ul>${item.projects.map(id => byId[id]).filter(Boolean).map(project => `<li><a href="work/${escape(project.id)}/"><span>${escape(categoryKey(project.category) === 'independent' ? 'Partnership' : project.category)}</span>${escape(project.title)}<i aria-hidden="true">↗</i></a></li>`).join('')}</ul>${paired(item)}`;
     }
+    function groupSection(group, items) {
+      if (!items.length) return '';
+      return `<section class="skills-group"><h3>${escape(group.group)}<span>${String(items.length).padStart(2, '0')}</span></h3><div class="skills-chips">${items.map(chip).join('')}</div></section>`;
+    }
     function renderSkills() {
       const needle = query.trim().toLowerCase();
-      const html = skillGroups.filter(group => area === 'all' || group.group === area).map(group => {
-        const items = group.items.filter(item => !needle || item.name.toLowerCase().includes(needle));
-        if (!items.length) return '';
-        return `<section class="skills-group"><h3>${escape(group.group)}<span>${String(items.length).padStart(2, '0')}</span></h3><div class="skills-chips">${items.map(chip).join('')}</div></section>`;
-      }).join('');
-      const coreRow = area === 'all' && !needle ? `<section class="skills-core"><h3>Core stack<span>Used in 3 or more projects</span></h3><div class="skills-chips">${core.map(chip).join('')}</div></section>` : '';
-      skillsRoot.innerHTML = html ? coreRow + html : `<p class="skills-empty">No tool matches “${escape(query)}”.</p>`;
+      const coreRow = !needle ? `<section class="skills-core"><h3>Core stack<span>Used in 3 or more projects</span></h3><div class="skills-chips">${core.map(chip).join('')}</div></section>` : '';
+      let body = '';
+      if (needle) {
+        body = skillGroups.filter(group => area === 'all' || group.group === area).map(group => {
+          const items = group.items.filter(item => item.name.toLowerCase().includes(needle));
+          return groupSection(group, items);
+        }).join('');
+        skillsRoot.innerHTML = body || `<p class="skills-empty">No tool matches “${escape(query)}”.</p>`;
+      } else if (area === 'all') {
+        const rows = skillGroups.map(group => `<button type="button" class="skills-area-summary" data-area="${escape(group.group)}"><span class="skills-area-name">${escape(group.group)}</span><span class="skills-area-count">${String(group.items.length).padStart(2, '0')}</span></button>`).join('');
+        body = `<section class="skills-overview"><p class="skills-overview-hint">Choose an area to browse its tools</p><div class="skills-area-list">${rows}</div></section>`;
+        skillsRoot.innerHTML = coreRow + body;
+      } else {
+        const group = skillGroups.find(entry => entry.group === area);
+        body = group ? groupSection(group, group.items) : '';
+        skillsRoot.innerHTML = body ? coreRow + body : coreRow + `<p class="skills-empty">No tools in this area.</p>`;
+      }
       showDetail();
     }
     tabs.addEventListener('click', event => {
       const button = event.target.closest('[data-area]');
       if (!button) return;
-      area = button.dataset.area;
-      tabs.querySelectorAll('[data-area]').forEach(tab => tab.setAttribute('aria-pressed', String(tab === button)));
-      renderSkills();
+      setArea(button.dataset.area);
     });
     search.addEventListener('input', () => { query = search.value; renderSkills(); });
     skillsRoot.addEventListener('click', event => {
+      const areaButton = event.target.closest('.skills-area-summary[data-area]');
+      if (areaButton) { setArea(areaButton.dataset.area); return; }
       const target = event.target.closest('[data-skill]');
       if (target) select(target.dataset.skill);
     });

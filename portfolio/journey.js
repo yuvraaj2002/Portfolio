@@ -6,14 +6,14 @@
   const about = document.querySelector('#about');
   const github = document.querySelector('#github');
   if (!experience || !work) return;
-  // Experience establishes the context; case studies provide the evidence.
-  work.before(experience);
+  // Work leads; experience and the rest follow in the story rail.
+  experience.before(work);
   const story = document.createElement('div');
   story.className = 'story';
-  experience.before(story);
+  work.before(story);
   const svgNS = 'http://www.w3.org/2000/svg';
-  story.innerHTML = `<div class="story-rail" aria-hidden="true"><svg class="story-thread"><polyline class="thread-base"/><polyline class="thread-progress"/><g class="thread-nodes"></g><circle class="thread-head" r="4"/></svg></div>`;
-  story.append(...[experience, work, skills, about, testimonials, github].filter(Boolean));
+  story.innerHTML = `<div class="story-rail" aria-hidden="true"><svg class="story-thread"><polyline class="thread-base"/><polyline class="thread-progress"/><g class="thread-nodes"></g><circle class="thread-head" r="3"/></svg></div>`;
+  story.append(...[work, experience, skills, about, testimonials, github].filter(Boolean));
   const svg = story.querySelector('.story-thread');
   const base = svg.querySelector('.thread-base');
   const trail = svg.querySelector('.thread-progress');
@@ -41,14 +41,12 @@
     }
     const grid = work.querySelector('#projects');
     const gridEnd = grid && grid.offsetHeight && {x: lane, y: grid.getBoundingClientRect().bottom - origin.top - 40, dot: true};
+    // Fewer nodes: section starts + journey markers + optional github merge.
     const nodes = [
+      workDot || atLane(work.querySelector('.section-label'), lane, true),
+      gridEnd,
       atLane(experience.querySelector('.section-label'), lane, true),
       ...markers,
-      atLane(experience.querySelector('.handoff-title'), lane, true),
-      workDot,
-      atLane(work.querySelector('.work-toolbar'), lane, true),
-      gridEnd,
-      testimonials && !testimonials.hidden && atLane(testimonials.querySelector('.section-label'), lane, true),
       skills && atLane(skills.querySelector('.section-label'), lane, true),
       about && atLane(about.querySelector('.section-label'), lane, true),
       github && atLane(github.querySelector('.section-label'), lane, true)
@@ -63,28 +61,14 @@
     return nodes;
   }
 
-  // Zigzag between consecutive anchors: the thread swings out to a second lane
-  // and back, always landing exactly on each anchor.
+  // Straight spine between anchors. Only bend for the final merge into GitHub.
   function layout() {
     dirty = false;
     const origin = story.getBoundingClientRect();
     svg.setAttribute('width', origin.width);
     svg.setAttribute('height', origin.height);
     const nodes = anchors(origin);
-    const gutter = parseFloat(getComputedStyle(experience).paddingLeft) || 90;
-    points = [];
-    nodes.forEach((node, i) => {
-      if (i && !node.merge) {
-        const prev = nodes[i - 1];
-        const amp = Math.max(10, (gutter - Math.max(prev.x, node.x)) * 0.6);
-        const steps = Math.max(2, Math.round((node.y - prev.y) / 150 / 2) * 2);
-        for (let s = 1; s < steps; s++) {
-          const t = s / steps;
-          points.push({x: prev.x + (node.x - prev.x) * t + (s % 2 ? amp : 0), y: prev.y + (node.y - prev.y) * t});
-        }
-      }
-      points.push({x: node.x, y: node.y, merge: node.merge});
-    });
+    points = nodes.map(node => ({x: node.x, y: node.y, merge: node.merge}));
     lengths = [0];
     for (let i = 1; i < points.length; i++) lengths.push(lengths[i - 1] + Math.hypot(points[i].x - points[i - 1].x, points[i].y - points[i - 1].y));
     total = lengths[lengths.length - 1] || 0;
@@ -96,7 +80,7 @@
     extraNodes = nodes.filter(n => n.dot).map(n => {
       const c = document.createElementNS(svgNS, 'circle');
       c.setAttribute('class', 'thread-node');
-      c.setAttribute('cx', n.x); c.setAttribute('cy', n.y); c.setAttribute('r', 5);
+      c.setAttribute('cx', n.x); c.setAttribute('cy', n.y); c.setAttribute('r', 3.5);
       nodeLayer.append(c);
       return {el: c, y: n.y};
     });

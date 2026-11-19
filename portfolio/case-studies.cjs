@@ -9,26 +9,22 @@ module.exports = {
     "ownership": [
       "Built the classification API: semantic and keyword search find the closest examples, results are merged, and a language model reranks them with structured, validated output.",
       "Returned up to three taxonomy categories per patent, each with a short justification an analyst can check.",
-      "Evaluated against 5,000 client-labelled patents across 84 categories, reaching 87.8% top-1 and 98.2% top-3 accuracy at taxonomy-branch level, nearly doubling top-1 accuracy over the baseline.",
-      "Built a batch pipeline that processes up to 100,000 publications per job with chunked, asynchronous processing.",
+      "Evaluated on a labelled holdout set and nearly doubled baseline accuracy, with ranked suggestions instead of a single opaque guess.",
+      "Built a batch pipeline that processes portfolio-scale jobs with chunked, asynchronous processing.",
       "Shipped it as containers through GitHub Actions, with image scanning, commit-tagged releases, and automatic rollback."
     ],
     "numbers": [
       {
-        "value": "87.8%",
-        "label": "top-1 accuracy at taxonomy-branch level"
+        "value": "2x",
+        "label": "near-doubling of baseline accuracy on a labelled holdout"
       },
       {
-        "value": "98.2%",
-        "label": "top-3 accuracy on 5,000 client-labelled patents"
-      },
-      {
-        "value": "84",
-        "label": "taxonomy categories covered"
+        "value": "3",
+        "label": "ranked category suggestions, each with a justification"
       },
       {
         "value": "100K",
-        "label": "publications processed per job"
+        "label": "publications processed per batch job at peak"
       }
     ],
     "tools": [
@@ -63,10 +59,14 @@ module.exports = {
       }
     ],
     "outcomes": [
-      "Nearly double the baseline’s top-1 accuracy, with the right category in the top three 98.2% of the time.",
+      "Nearly double the previous baseline, with ranked options instead of one opaque prediction.",
       "Every recommendation comes with a justification, so analysts can review rather than redo.",
-      "Classification runs on whole portfolios, up to 100,000 publications in a single job."
-    ]
+      "Classification runs on whole portfolios in large batch jobs, not one patent at a time."
+    ],
+    "decision": {
+      "title": "Ship explainability with the ranking, not after.",
+      "body": "The tempting shortcut was a single best category and a faster path. I kept ranked suggestions with analyst-style justifications even when it cost latency, because trust mattered more than a snappy wrong answer. What I’d do differently: wire the labelled eval set into every ranking change earlier, so regressions show up before a batch job does."
+    }
   },
   "citation-intelligence": {
     "role": "Document AI engineering",
@@ -125,7 +125,11 @@ module.exports = {
       "Citations come back structured, normalized, and highlighted in the original PDF.",
       "Large documents run in parallel batches instead of one long job.",
       "OCR runs only where it is needed, which keeps processing cost down."
-    ]
+    ],
+    "decision": {
+      "title": "Pay for OCR only where citations land.",
+      "body": "Full-document OCR on hundred-page patents blew the budget and the wall clock. I split work into parallel batches and ran OCR only on pages that already had citations, then used tool calling to place highlights. What broke first was merge order when page numbers drifted across batches — I’d lock page identity into the merge contract on day one next time."
+    }
   },
   "ai-gateway": {
     "role": "AI platform engineering",
@@ -182,7 +186,11 @@ module.exports = {
       "Product teams call one API instead of managing each model provider.",
       "Access, rate limits, and spend are controlled and visible in one place.",
       "Model changes go through code review and can be rolled back automatically."
-    ]
+    ],
+    "decision": {
+      "title": "Centralize model access before every service invents it.",
+      "body": "Leaving each product to wire its own keys and providers was faster for the first feature and worse for every one after. I shipped a private gateway with one compatible API, spend tracking, and a fallback model, starting from a single-server footprint while the multi-zone move was planned. What I’d do differently: put failover drills and spend alerts in place before more services depended on it."
+    }
   },
   "maxval-ip-workflows": {
     "role": "Process Associate",
@@ -233,7 +241,11 @@ module.exports = {
       "18–20 hours of repetitive work removed from the team every week.",
       "Documents processed in a third of the time it took by hand.",
       "Analysts spend their time on judgement, not lookups and copying."
-    ]
+    ],
+    "decision": {
+      "title": "Automate the browser when the platform has no API.",
+      "body": "Waiting for a clean integration surface would have left the repetitive USPTO work untouched. I paired browser automation with vision agents so the pipelines could navigate real screens and extract structured data. Selectors still broke when the UI shifted — next time I’d isolate those touchpoints earlier and add a cheap smoke path that fails loud before a full batch runs."
+    }
   },
   "healthcare-outreach": {
     "role": "Full-stack & applied AI engineering",
@@ -331,7 +343,11 @@ module.exports = {
       "More than 80,000 calls handled by AI agents, with every call reviewed and scored.",
       "Every call ends with a recorded outcome and a CRM update, with no notes copied by hand.",
       "Follow-ups run on schedule, respect calling hours and do-not-call requests, and recover on their own when something stalls."
-    ]
+    ],
+    "decision": {
+      "title": "Treat concurrency and recovery as product features.",
+      "body": "The voice agents were the visible part; the hard failures were duplicate enrollments, stalled sequences, and CRM writes that never landed. I invested in race-safe enrollment, retries, a provider-outage safety switch, and self-healing checks for stuck outreach. What I’d do differently: ship those recovery paths with the first sequence, not after the first production stall."
+    }
   },
   "document-workspace": {
     "role": "Full-stack & document AI engineering",
@@ -420,7 +436,11 @@ module.exports = {
       "Answers come with their sources, so users can check them.",
       "Document preparation moves from manual copy-and-paste to review and approve.",
       "Upload, research, generation, signing, and stamping happen in one product."
-    ]
+    ],
+    "decision": {
+      "title": "Keep a human gate on conflicted document packages.",
+      "body": "Fully auto-accepting reordered PDF packages would have been faster and wrong more often. The pipeline orders pages and flags conflicts, but staff still approve before anything is used downstream. Citations in the assistant followed the same rule: every answer has sources a reviewer can open. Next time I’d surface conflict rates in the workspace earlier so the review queue stays honest."
+    }
   },
   "product-advisor": {
     "role": "Backend & applied AI engineering",
@@ -497,6 +517,10 @@ module.exports = {
       "One advisor for text, voice, and video questions, in the customer’s language.",
       "Recommendations stay current as the product catalog changes.",
       "Paid plans and usage limits are enforced automatically."
-    ]
+    ],
+    "decision": {
+      "title": "Meet multimodal demand without trusting every frame.",
+      "body": "Customers wanted text, voice, and video in three languages; shipping all three at once meant more failure modes than a chat-only advisor. I kept video analysis behind a clear-frame pick before recommendations, and tied catalog sync to events so answers stayed current. What I’d tighten first next time: stricter frame quality gates and clearer empty states when the video isn’t usable."
+    }
   }
 };
