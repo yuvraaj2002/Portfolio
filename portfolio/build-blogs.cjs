@@ -181,7 +181,7 @@ function renderPostPage(post) {
 </head>
 <body class="case-page post-page">
   <a class="skip-link" href="#main">Skip to article</a>
-  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../../">Yuvraj Singh.</a><div class="nav-links"><a href="../../#work">Work</a><a href="../../weekend-builds/">Builds</a><a href="../" aria-current="page">Writing</a><a href="https://drive.google.com/drive/folders/1nn5lLW_3h1EwfIEO0q5XM7mNQE1rlnuR?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗<span class="sr-only"> (opens in a new tab)</span></a></div></nav></header>
+  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../../">Yuvraj Singh.</a><div class="nav-links"><a href="../../#work">Work</a><a href="../../weekend-builds/">Side projects</a><a href="../" aria-current="page">Writing</a><a href="https://drive.google.com/drive/folders/1nn5lLW_3h1EwfIEO0q5XM7mNQE1rlnuR?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗<span class="sr-only"> (opens in a new tab)</span></a></div></nav></header>
   <main id="main">
     <article>
       <header class="case-hero case-shell post-hero" aria-labelledby="post-title">
@@ -204,6 +204,10 @@ ${post.html}
     </article>
   </main>
   <footer class="footer"><a class="wordmark" href="../../">Yuvraj Singh.</a><p>Written in public. © <span id="year">2026</span></p><a href="#main">Back to top ↑</a></footer>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
 `;

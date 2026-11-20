@@ -6,6 +6,7 @@ const {projects, details, previews, render, skills, skillsScript, testimonials} 
 const {assertPublicContent, assertPublicText, isClientWork} = require('./publication-policy.cjs');
 const root = __dirname;
 const home = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+const isHostedAsset = value => value.startsWith('/_vercel/');
 
 // Generated pages must be fresh, independently navigable, and public-safe.
 for (const [index, project] of projects.entries()) {
@@ -24,7 +25,7 @@ for (const [index, project] of projects.entries()) {
   assert.ok(!/amplifyapp\.com|arn:aws:|AKIA[A-Z0-9]{16}|-----BEGIN [A-Z ]*PRIVATE KEY|ghp_[A-Za-z0-9]+|sk-proj-[A-Za-z0-9]+/.test(html), 'Private identifier or credential-like value in output');
   // Follow local links exactly as a static host would, including deep links.
   for (const [, value] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
-    if (/^https?:/.test(value)) continue;
+    if (/^https?:/.test(value) || isHostedAsset(value)) continue;
     const [resource, fragment] = value.split('#');
     const local = resource.split('?')[0];
     let target = local ? path.resolve(path.dirname(file), local) : file;
@@ -146,7 +147,7 @@ assert.ok(promptHtml.includes('Prompt Injection'), 'Prompt injection post should
 assert.ok(promptHtml.includes('UP NEXT IN SERIES') || promptHtml.includes('NEXT IN SERIES'), 'Post pages need series continuity');
 assert.ok(home.includes('blogs/prompt-injection-cant-be-fully-solved/'), 'Homepage should bridge to the latest essay');
 for (const [,value] of blogs.matchAll(/(?:href|src)="([^"]+)"/g)) {
-  if (/^https?:/.test(value)) continue;
+  if (/^https?:/.test(value) || isHostedAsset(value)) continue;
   const [resource,fragment] = value.split('#');
   let target = resource ? path.resolve(root,'blogs',resource.split('?')[0]) : path.join(root,'blogs/index.html');
   if (fs.existsSync(target) && fs.statSync(target).isDirectory()) target = path.join(target,'index.html');
@@ -156,7 +157,7 @@ for (const [,value] of blogs.matchAll(/(?:href|src)="([^"]+)"/g)) {
 assert.ok(!home.includes('id="diffstory-title"'), 'Side projects belong on their own page');
 assert.ok(weekends.includes('https://github.com/yuvraaj2002/DiffStory'));
 for (const [,value] of weekends.matchAll(/(?:href|src)="([^"]+)"/g)) {
-  if (/^https?:/.test(value)) continue;
+  if (/^https?:/.test(value) || isHostedAsset(value)) continue;
   const [resource,fragment] = value.split('#');
   let target = resource ? path.resolve(root,'weekend-builds',resource.split('?')[0]) : path.join(root,'weekend-builds/index.html');
   if (fs.existsSync(target) && fs.statSync(target).isDirectory()) target = path.join(target,'index.html');

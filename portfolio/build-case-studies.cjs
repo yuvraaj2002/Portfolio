@@ -55,7 +55,7 @@ function render(project, index) {
 </head>
 <body class="case-page">
   <a class="skip-link" href="#main">Skip to case study</a>
-  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../../">Yuvraj Singh.</a><div class="nav-links"><a href="${back}">Work</a><a href="../../weekend-builds/">Builds</a><a href="../../blogs/">Writing</a><a href="https://drive.google.com/drive/folders/1nn5lLW_3h1EwfIEO0q5XM7mNQE1rlnuR?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗<span class="sr-only"> (opens in a new tab)</span></a></div></nav></header>
+  <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../../">Yuvraj Singh.</a><div class="nav-links"><a href="${back}">Work</a><a href="../../weekend-builds/">Side projects</a><a href="../../blogs/">Writing</a><a href="https://drive.google.com/drive/folders/1nn5lLW_3h1EwfIEO0q5XM7mNQE1rlnuR?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗<span class="sr-only"> (opens in a new tab)</span></a></div></nav></header>
   <main id="main">
     <section class="case-hero case-shell" aria-labelledby="case-title">
       <a class="case-back" href="${back}">← ${escape(project.category)} / All work</a>
@@ -82,6 +82,10 @@ ${detail.decision ? `        <section class="case-chapter" id="decision" aria-la
     <div class="case-shell"><a class="case-next" href="../${next.id}/"><span class="section-label">MORE WORK · ${escape(next.category)}</span><span class="case-next-title">${escape(next.title)}</span><span class="case-next-arrow" aria-hidden="true">↗</span></a><div class="case-bottom"><a href="${back}">← Back to ${escape(project.category)} work</a><a href="https://www.linkedin.com/in/yuvraaj-singh/" target="_blank" rel="noopener noreferrer">Get in touch ↗<span class="sr-only"> (opens in a new tab)</span></a></div></div>
   </main>
   <footer class="footer"><a class="wordmark" href="../../">Yuvraj Singh.</a><p>Engineering, explained.</p><a href="#main">Back to top ↑</a></footer>
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
 `;

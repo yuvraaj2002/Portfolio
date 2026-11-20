@@ -8,6 +8,7 @@
     "check": "node --check app.js && node --check content.js && node --check journey.js && node --check smooth-scroll.js && node --check nav.js && node --check case-study.js && node --check case-studies.cjs && node --check publication-policy.cjs && node --check build-case-studies.cjs && node --check build-blogs.cjs && node --check live-previews.cjs && node verify-case-studies.cjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "marked": "^18.2.1"
   }
 }
