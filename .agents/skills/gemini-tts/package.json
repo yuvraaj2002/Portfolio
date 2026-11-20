@@ -1,0 +1,14 @@
+{
+  "name": "gemini-tts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Local deps for the gemini-tts skill generate-tts.mjs script",
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "@google/genai": "^3.6.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
