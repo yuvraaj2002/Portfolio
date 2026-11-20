@@ -7,7 +7,7 @@
  *   npm run tts -- --segments segments.json
  *   npm run tts -- --provider gemini --segments segments.json   # needs GEMINI_API_KEY
  *
- * Kokoro defaults: voice am_echo, output public/vo/, American English.
+ * Kokoro defaults: voice af_heart (locked), output public/vo/, American English.
  */
 
 import { existsSync, readFileSync } from "fs";
@@ -26,7 +26,7 @@ const geminiScript = resolve(
 const venvPython = join(launchRoot, ".venv", "bin", "python");
 
 const DEFAULT_OUTPUT = join(launchRoot, "public", "vo");
-const KOKORO_VOICE = "am_echo";
+const KOKORO_VOICE = "af_heart";
 const GEMINI_VOICE = "Charon";
 const GEMINI_NOTES =
   "Style: Calm, precise, confident professional narrator. Clear diction, no hype. " +
@@ -86,7 +86,7 @@ if (typeof providerTaken.value === "string") {
 
 if (help) {
   console.log(`Usage:
-  npm run tts -- --text "..." [--voice am_echo]
+  npm run tts -- --text "..."
   npm run tts -- --segments segments.json
   npm run tts -- --provider gemini --segments segments.json
 
@@ -94,8 +94,7 @@ Providers:
   kokoro  (default)  Local mlx-audio Kokoro — no API key
   gemini             Google Gemini TTS — needs GEMINI_API_KEY
 
-Kokoro voices (American male): am_echo, am_adam
-British male: bm_george, bm_daniel
+Kokoro voice for this project is locked to af_heart.
 `);
   process.exit(0);
 }
@@ -118,11 +117,18 @@ if (provider === "kokoro" || provider === "mlx" || provider === "local") {
   if (!hasValueFlag(forwarded, "--output-dir")) {
     forwarded.push("--output-dir", DEFAULT_OUTPUT);
   }
-  if (!hasValueFlag(forwarded, "--voice")) {
-    forwarded.push("--voice", KOKORO_VOICE);
+  // Force project voice — ignore any --voice override for Kokoro
+  const cleaned = [];
+  for (let i = 0; i < forwarded.length; i++) {
+    if (forwarded[i] === "--voice") {
+      i += 1;
+      continue;
+    }
+    cleaned.push(forwarded[i]);
   }
+  cleaned.push("--voice", KOKORO_VOICE);
 
-  const child = spawn(venvPython, [kokoroScript, ...forwarded], {
+  const child = spawn(venvPython, [kokoroScript, ...cleaned], {
     cwd: launchRoot,
     stdio: "inherit",
     env: process.env,

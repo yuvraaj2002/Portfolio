@@ -17,7 +17,7 @@ Static site lives in `portfolio/`. Public copy is deliberately high-level (role,
 | Core message | I build AI systems that make it to production |
 | Tone | Precise, calm, confident, editorial — not hype, not playful |
 | Duration | 30s spot (offer 15s teaser / 45s full as alternatives) |
-| Voiceover | Optional. English. Calm, clear, mid-register male via **local Kokoro** (`am_echo` default, mlx-audio). Gemini TTS optional. Prefer muted-safe captions either way |
+| Voiceover | Optional. English via **local Kokoro** voice **`af_heart`** only (mlx-audio). Gemini TTS optional. Prefer muted-safe captions either way |
 | Publishing | LinkedIn + portfolio landing first; also X. Default 1920×1080; offer 1080×1920 vertical if asked |
 | Reference | Stripe / Linear developer aesthetic; monochrome editorial; Apple-level restraint without Apple pastiche |
 
@@ -110,7 +110,7 @@ launch-video/                 # Remotion project root
 - `npm run build` / `npm run check` under `portfolio/` remain for the static site only
 - Companion skills:
   - `.agents/skills/remotion-best-practices/` for Remotion implementation
-  - Local Kokoro TTS (default): `cd launch-video && npm run tts -- …` (mlx-audio; no API key)
+  - Local Kokoro TTS (default, voice `af_heart`): `cd launch-video && npm run tts -- …` (mlx-audio; no API key)
   - Optional `.agents/skills/gemini-tts/`: `npm run tts:gemini -- …`
 
 ## Suggested narrative for a portfolio trailer

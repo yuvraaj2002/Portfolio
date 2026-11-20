@@ -15,7 +15,7 @@ You are in the **Yuvraj Singh Portfolio** monorepo. Before Phase 0:
 2. Apply those defaults for portfolio / personal-brand films. Only re-ask Phase 0 questions the user has not answered and that are not covered by the context file.
 3. Put `storyboard.json`, Remotion source, assets, and renders under `launch-video/` — never inside `portfolio/dist/`.
 4. For Remotion implementation details, also use the sibling skill `.agents/skills/remotion-best-practices/`.
-5. For voiceover, default to local Kokoro: `cd launch-video && npm run tts -- …` (voice `am_echo`, `public/vo/`). Optional Gemini: `npm run tts:gemini` + `GEMINI_API_KEY`.
+5. For voiceover, default to local Kokoro: `cd launch-video && npm run tts -- …` (voice locked to **`af_heart`**, `public/vo/`). Optional Gemini: `npm run tts:gemini` + `GEMINI_API_KEY`.
 6. Obey `PUBLICATION.md`: outcomes and ownership only; no proprietary implementation recipes on screen or in VO.
 
 This skill is not locked to one aesthetic for arbitrary products. **For this portfolio brand, default to the Monochrome Thread system in portfolio-context.md** unless the user explicitly wants a different look. For any other product brief in this repo, adapt normally — but still keep Remotion work under `launch-video/` and respect publication rules when showing employer/client work.

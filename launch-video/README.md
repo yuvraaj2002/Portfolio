@@ -29,7 +29,7 @@ npm run tts -- --segments segments.json
 npm run tts:sample   # three short clips under public/vo/samples/
 ```
 
-Defaults: provider `kokoro`, voice `am_echo` (American male), output `public/vo/`.
+Defaults: provider `kokoro`, voice **`af_heart`** (locked for this project), output `public/vo/`.
 
 Optional Gemini:
 

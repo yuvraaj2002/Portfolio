@@ -13,7 +13,7 @@ Usage:
   .venv/bin/python scripts/generate_kokoro_tts.py \\
     --segments segments.json \\
     --output-dir public/vo \\
-    --voice am_echo
+    --voice af_heart
 """
 
 from __future__ import annotations
@@ -26,7 +26,7 @@ import tempfile
 from pathlib import Path
 
 DEFAULT_MODEL = "mlx-community/Kokoro-82M-bf16"
-DEFAULT_VOICE = "am_echo"  # calm American male; alt: am_adam, bm_george
+DEFAULT_VOICE = "af_heart"  # locked project voice (American English)
 DEFAULT_LANG = "a"  # American English (Kokoro lang_code)
 DEFAULT_SPEED = 1.0
 

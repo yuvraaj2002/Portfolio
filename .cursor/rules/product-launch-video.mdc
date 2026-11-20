@@ -10,6 +10,6 @@ When the user asks for a launch video, promo trailer, product film, Remotion vid
 1. Read and follow `.agents/skills/product-launch-video/SKILL.md`
 2. Immediately read `.agents/skills/product-launch-video/portfolio-context.md` and apply its defaults, monochrome system, asset list, and publication boundary
 3. Use `.agents/skills/remotion-best-practices/` for Remotion code and rendering
-4. For narration, default to local Kokoro via `cd launch-video && npm run tts -- …` (needs `launch-video/.venv` with mlx-audio). Optional Gemini: `npm run tts:gemini` + `GEMINI_API_KEY`
+4. For narration, default to local Kokoro via `cd launch-video && npm run tts -- …` with voice locked to **`af_heart`** (needs `launch-video/.venv` with mlx-audio). Optional Gemini: `npm run tts:gemini` + `GEMINI_API_KEY`
 5. Keep all Remotion / VO work under `launch-video/` (storyboard, `public/`, `public/vo/`, `src/`, `out/`) — never inside `portfolio/dist/`
 6. On-screen and voiceover copy must stay within public claims from `portfolio/content.js` / `portfolio/index.html` and `PUBLICATION.md`
