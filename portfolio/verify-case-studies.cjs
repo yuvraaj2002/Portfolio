@@ -89,11 +89,13 @@ assert.equal(runHome('?category=independent').elements.get('#project-count').tex
 assert.equal(runHome('?category=invalid').elements.get('#project-count').textContent, '07 CASE STUDIES');
 
 const css = fs.readFileSync(path.join(root,'styles.css'),'utf8');
-assert.ok(!/#(?:000|000000)(?:[0-9a-f]{1,2})?\b|\b(?:color|background|border-color)\s*:\s*black\b|var\(--black\)/i.test(css), 'Pure-black styling must not return');
-for (const [, value] of css.matchAll(/#([0-9a-f]{3,8})\b/gi)) {
+const cssCore = css.replace(/\/\* writing-theme \*\/[\s\S]*$/, '');
+assert.ok(!/#(?:000|000000)(?:[0-9a-f]{1,2})?\b|\b(?:color|background|border-color)\s*:\s*black\b|var\(--black\)/i.test(cssCore), 'Pure-black styling must not return');
+for (const [, value] of cssCore.matchAll(/#([0-9a-f]{3,8})\b/gi)) {
   const rgb = value.length < 5 ? value.slice(0,3).split('') : value.slice(0,6).match(/../g);
   assert.ok(rgb.every(channel => channel === rgb[0]), `Nonneutral color ${value}`);
 }
+assert.ok(/\/\* writing-theme \*\//.test(css) && /theme-switch/.test(css), 'Writing theme switch styles must exist');
 assertPublicContent(projects, details);
 assert.equal(fs.readFileSync(path.join(root,'skills.js'),'utf8'), skillsScript(), 'Rebuild stale skills overview');
 assert.equal(fs.readFileSync(path.join(root,'dist','skills.js'),'utf8'), skillsScript(), 'Published skills differ from source');
@@ -127,6 +129,7 @@ const blogFiles = collectFiles(path.join(root,'blogs'), path.join(root,'blogs'))
 const allowed = new Set([...Object.values(previews).map(item=>item.image),'.portfolio-generated','index.html','styles.css','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item=>item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE',...projects.map(project=>`work/${project.id}/index.html`),...blogFiles]);
 allowed.add('weekend-builds/index.html');
 allowed.add('nav.js');
+allowed.add('theme.js');
 assert.deepEqual(new Set(published),allowed,'Unexpected or missing file in publication artifact');
 const weekends = fs.readFileSync(path.join(root,'weekend-builds/index.html'),'utf8');
 assert.equal(fs.readFileSync(path.join(root,'dist/weekend-builds/index.html'),'utf8'),weekends);
@@ -140,11 +143,13 @@ assert.ok(blogs.includes('href="./prompt-injection-cant-be-fully-solved/"'), 'Pr
 assert.ok(blogs.includes('START HERE') && blogs.includes('writing-featured'), 'Writing page must feature the latest essay');
 assert.ok(blogs.includes('id="series"') && blogs.includes('AI Security'), 'Writing page must present the series path');
 assert.ok(blogs.includes('archive-panel') && blogs.includes('<details'), 'Hashnode archive should be secondary and collapsible');
+assert.ok(blogs.includes('data-theme-toggle') && blogs.includes('theme.js'), 'Writing pages need a dark mode toggle');
 const promptPost = path.join(root,'blogs/prompt-injection-cant-be-fully-solved/index.html');
 assert.ok(fs.existsSync(promptPost), 'Prompt injection post page must exist');
 const promptHtml = fs.readFileSync(promptPost,'utf8');
 assert.ok(promptHtml.includes('Prompt Injection'), 'Prompt injection post should render from markdown');
 assert.ok(promptHtml.includes('UP NEXT IN SERIES') || promptHtml.includes('NEXT IN SERIES'), 'Post pages need series continuity');
+assert.ok(promptHtml.includes('data-theme-toggle') && promptHtml.includes('theme.js'), 'Essay pages need a dark mode toggle');
 assert.ok(home.includes('blogs/prompt-injection-cant-be-fully-solved/'), 'Homepage should bridge to the latest essay');
 for (const [,value] of blogs.matchAll(/(?:href|src)="([^"]+)"/g)) {
   if (/^https?:/.test(value) || isHostedAsset(value)) continue;

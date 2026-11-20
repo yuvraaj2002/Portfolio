@@ -125,7 +125,7 @@ function build() {
   const blogFiles = collectFiles(path.join(__dirname, 'blogs'), path.join(__dirname, 'blogs'))
     .filter(file => !file.endsWith('.md'))
     .map(file => `blogs/${file}`);
-  const runtime = [...Object.values(previews).map(item => item.image),'index.html','weekend-builds/index.html',...blogFiles,'styles.css','nav.js','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item => item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE'];
+  const runtime = [...Object.values(previews).map(item => item.image),'index.html','weekend-builds/index.html',...blogFiles,'styles.css','nav.js','theme.js','app.js','content.js','skills.js','testimonials.js',...testimonials.map(item => item.photo).filter(Boolean),'journey.js','smooth-scroll.js','case-study.js','favicon.svg','assets/profile-700.avif','assets/profile-1106.avif','assets/profile-700.webp','assets/profile-1106.webp','assets/profile-700.jpg','assets/profile-1106.jpg','assets/signature.png','vendor/lenis.min.js','vendor/lenis.css','vendor/LENIS-LICENSE'];
   for (const file of runtime) {
     const source = path.join(__dirname, file);
     if (['index.html','app.js','content.js'].includes(file)) assertPublicText(fs.readFileSync(source,'utf8'), file);

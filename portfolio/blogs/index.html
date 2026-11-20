@@ -4,16 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Engineering essays by Yuvraj Singh on AI security, LLM systems, and production guardrails. Start with the latest piece, then follow the series.">
+  <meta name="theme-color" content="#ffffff">
   <title>Writing — Yuvraj Singh</title>
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../styles.css?v=writing-1">
+  <link rel="stylesheet" href="../styles.css?v=writing-7">
   <link rel="stylesheet" href="../vendor/lenis.css">
+  <script>
+    (() => {
+      try {
+        const stored = localStorage.getItem('writing-theme');
+        const dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+          document.documentElement.style.colorScheme = 'dark';
+        } else {
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      } catch (_) {}
+    })();
+  </script>
   <script src="../vendor/lenis.min.js" defer></script>
   <script src="../smooth-scroll.js" defer></script>
   <script src="../nav.js" defer></script>
+  <script src="../theme.js" defer></script>
 </head>
 <body class="case-page blogs-page">
   <a class="skip-link" href="#main">Skip to content</a>
+  <button type="button" class="theme-switch" data-theme-toggle role="switch" aria-checked="false" aria-pressed="false" aria-label="Switch to dark appearance"><span class="theme-switch-track" aria-hidden="true"><span class="theme-switch-clouds"><i></i><i></i><i></i></span><span class="theme-switch-stars"><i></i><i></i><i></i><i></i><i></i></span></span><span class="theme-switch-knob" aria-hidden="true"><span class="theme-switch-sun"></span><span class="theme-switch-moon"></span></span></button>
   <header class="site-header"><nav class="nav-shell" aria-label="Main navigation"><a class="wordmark" href="../">Yuvraj Singh.</a><div class="nav-links"><a href="../#work">Work</a><a href="../weekend-builds/">Side projects</a><a href="./" aria-current="page">Writing</a><a href="https://drive.google.com/drive/folders/1nn5lLW_3h1EwfIEO0q5XM7mNQE1rlnuR?usp=sharing" target="_blank" rel="noopener noreferrer">Resume ↗<span class="sr-only"> (opens in a new tab)</span></a></div></nav></header>
   <main id="main">
     <section class="case-hero case-shell writing-hero" aria-labelledby="blogs-title">
