@@ -140,6 +140,7 @@ assert.equal(fs.readFileSync(path.join(root,'dist/blogs/index.html'),'utf8'), bl
 assert.ok(blogs.includes('https://hashnode.com/@Yuvraj01'));
 assert.equal([...blogs.matchAll(/<li><a href="https:\/\/yuvraj01\.hashnode\.dev\//g)].length, 40, 'Every public Hashnode post should be listed');
 assert.ok(blogs.includes('href="./prompt-injection-cant-be-fully-solved/"'), 'Prompt injection post must be listed on Writing');
+assert.ok(blogs.includes('href="./jailbreaks-in-practice/"'), 'Jailbreaks post must be listed on Writing');
 assert.ok(blogs.includes('START HERE') && blogs.includes('writing-featured'), 'Writing page must feature the latest essay');
 assert.ok(blogs.includes('id="series"') && blogs.includes('AI Security'), 'Writing page must present the series path');
 assert.ok(blogs.includes('archive-panel') && blogs.includes('<details'), 'Hashnode archive should be secondary and collapsible');
@@ -148,9 +149,16 @@ const promptPost = path.join(root,'blogs/prompt-injection-cant-be-fully-solved/i
 assert.ok(fs.existsSync(promptPost), 'Prompt injection post page must exist');
 const promptHtml = fs.readFileSync(promptPost,'utf8');
 assert.ok(promptHtml.includes('Prompt Injection'), 'Prompt injection post should render from markdown');
-assert.ok(promptHtml.includes('UP NEXT IN SERIES') || promptHtml.includes('NEXT IN SERIES'), 'Post pages need series continuity');
+assert.ok(promptHtml.includes('NEXT IN SERIES') && promptHtml.includes('jailbreaks-in-practice'), 'Post 1 should link to the jailbreaks essay');
 assert.ok(promptHtml.includes('data-theme-toggle') && promptHtml.includes('theme.js'), 'Essay pages need a dark mode toggle');
-assert.ok(home.includes('blogs/prompt-injection-cant-be-fully-solved/'), 'Homepage should bridge to the latest essay');
+const jailbreaksPost = path.join(root,'blogs/jailbreaks-in-practice/index.html');
+assert.ok(fs.existsSync(jailbreaksPost), 'Jailbreaks post page must exist');
+const jailbreaksHtml = fs.readFileSync(jailbreaksPost,'utf8');
+assert.ok(jailbreaksHtml.includes('Jailbreaks in Practice'), 'Jailbreaks post should render from markdown');
+assert.ok(jailbreaksHtml.includes('UP NEXT IN SERIES') || jailbreaksHtml.includes('NEXT IN SERIES'), 'Jailbreaks post needs series continuity');
+assert.ok(jailbreaksHtml.includes('data-theme-toggle') && jailbreaksHtml.includes('theme.js'), 'Jailbreaks essay needs a dark mode toggle');
+assert.ok(fs.existsSync(path.join(root,'blogs/jailbreaks-in-practice/images/02-cover.png')), 'Jailbreaks cover image must be copied');
+assert.ok(home.includes('blogs/jailbreaks-in-practice/'), 'Homepage should bridge to the latest essay');
 for (const [,value] of blogs.matchAll(/(?:href|src)="([^"]+)"/g)) {
   if (/^https?:/.test(value) || isHostedAsset(value)) continue;
   const [resource,fragment] = value.split('#');

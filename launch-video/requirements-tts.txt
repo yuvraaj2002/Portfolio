@@ -1,5 +1,0 @@
-# Local Kokoro TTS (Apple Silicon / mlx-audio)
-# Install: uv pip install --python .venv/bin/python -r requirements-tts.txt
-mlx-audio[tts]
-misaki[en]
-soundfile
