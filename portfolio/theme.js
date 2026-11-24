@@ -6,7 +6,6 @@
   const root = document.documentElement;
   const toggle = document.querySelector('[data-theme-toggle]');
   const themeMeta = document.querySelector('meta[name="theme-color"]');
-  const media = window.matchMedia('(prefers-color-scheme: dark)');
 
   const readStored = () => {
     try {
@@ -25,7 +24,7 @@
   const resolve = () => {
     const stored = readStored();
     if (stored === 'dark' || stored === 'light') return stored;
-    return media.matches ? 'dark' : 'light';
+    return 'light';
   };
 
   const apply = theme => {
@@ -49,13 +48,6 @@
       apply(next);
     });
   }
-
-  const onSchemeChange = () => {
-    if (readStored()) return;
-    apply(resolve());
-  };
-  if (typeof media.addEventListener === 'function') media.addEventListener('change', onSchemeChange);
-  else if (typeof media.addListener === 'function') media.addListener(onSchemeChange);
 
   const year = document.getElementById('year');
   if (year) year.textContent = String(new Date().getFullYear());

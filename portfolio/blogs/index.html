@@ -13,12 +13,13 @@
     (() => {
       try {
         const stored = localStorage.getItem('writing-theme');
-        const dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        const dark = stored === 'dark';
         if (dark) {
           document.documentElement.setAttribute('data-theme', 'dark');
           document.documentElement.style.colorScheme = 'dark';
         } else {
           document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.style.colorScheme = 'light';
         }
       } catch (_) {}
     })();
